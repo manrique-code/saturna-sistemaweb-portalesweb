@@ -3,7 +3,7 @@
     // por buenas practicas siempre es bueno cerrarlo.
     // vamos a declarar variables globales
     // $contador = 0;
-    $tema = "daymode";
+    $tema = "normalmode";
 ?>
 
 <!DOCTYPE html>

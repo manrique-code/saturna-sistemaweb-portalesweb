@@ -6,8 +6,25 @@
     // este es un ambito de php donde todas las variables y funciones pueden ser llamadas
     require "config.php";
 
-    $urlSite = "";
+    // asi vamos a saber que protocolo estamos utilizando con PHP
+    $protocolo = "http://";
 
-    echo $_SERVER['SERVER_NAME'];
+    // es una variable de entorno que nos da informacion sobre el sevidor y donde la estamos ejecutando
+    // hay dos tipos de arreglos, arreglos con nombres (diccionarios) y arreglos con indices (como los normales)
+    $server_name = $_SERVER['SERVER_NAME'];
+
+    // la url de nuestro sitio
+    $urlSite = $protocolo . $server_name;
+
+    // la url de los recursos
+    $urlRecursos = "$urlSite/res";
+
+    // la url de los temas
+    $urlTema = "$urlSite/temas/$tema";
+
+    // aqui estamso requiriendo el tema de nuestra página y es el tema que el servidor va a renderizar
+    require "temas/$tema/index.normalmode.php";
+    
+    echo $urlSite;
 ?>
 

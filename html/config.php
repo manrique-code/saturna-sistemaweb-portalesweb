@@ -5,5 +5,3 @@
     // $contador = 0;
     $tema = "normalmode";
 ?>
-
-<!DOCTYPE html>

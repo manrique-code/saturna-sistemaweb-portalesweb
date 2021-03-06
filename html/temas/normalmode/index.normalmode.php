@@ -5,9 +5,9 @@
 		<meta http-equiv="Content-Language" content="es_HN" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-		<link href="css/materialicons.css" rel="stylesheet" type="text/css" />
-		<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection" />
-		<link type="text/css" rel="stylesheet" href="css/custom.css" />
+		<link href="<?php echo $urlRecursos?>/css/materialicons.css" rel="stylesheet" type="text/css" />
+		<link type="text/css" rel="stylesheet" href="<?php echo $urlRecursos?>/css/materialize.css"  media="screen,projection" />
+		<link type="text/css" rel="stylesheet" href="<?php echo $urlTema?>/css/custom.css" />
 		<title>Portales Web 2</title>
 	</head>
 	<body>	

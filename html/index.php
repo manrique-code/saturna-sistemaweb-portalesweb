@@ -42,10 +42,24 @@
         echo "Fallón la conexión a MySQL: (". $mysqli-> connect_errno . ") " . $myqsli->connect_errno;
     } else {
         $f = new funciones($mysqli);
-        $strSql = "SELECT idusuario, nombre from usuarios WHERE idusuario = ?";
+        $strSql = "SELECT idusuario, nombre from usuarios ";
+        $params = array('srios');
+        $queryData = $f->getQueryData($strSql);
 
-        $QueryData = $f->getQueryData($strSql);
-        var_dump($QueryData);
+        if(!$queryData["error"]) {
+            foreach($queryData["data"] as $usuario){
+                $id = $usuario['idusuario'];
+                $name = $usuario['nombre'];
+                echo "<h1>$id</h1>";
+                echo "<h2>$name</h2>";
+            }
+        } else {
+            echo "Ocurrio un error al consultar el usuario: " . $queryData["error"];
+        }
+
+        $strSql = "DELETE FROM usuarios WHERE idusuario = 'test'";
+        $queryData = $f->exeQuery($strSql);
+        var_dump($queryData);
         // la conexión a la db se pudo hacer de manera correcta en este punto
         // los queries en el ambiente web no se deben concatenar, en cambio se deben parametrizar
         // porque si concatenamos damos lugar a sqlinjections de los datos.

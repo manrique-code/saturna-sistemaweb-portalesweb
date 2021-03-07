@@ -14,21 +14,30 @@
             $parametrosTipos = "";
 
             if($stmt = $this->mysqli->prepare($strsql)){
-                foreach $parametros as $parametro {
-                    if (gettype($parametro) == "string"){
-                        $params .= "s";
+                foreach ($parametros as $parametro) {
+                    if (gettype($parametro) == "string" || gettype($parametro) == "NULL"){
+                        $parametrosTipos .= "s";
                     } elseif (gettype($parametro) == "integer"){
-                        $params .= "i";
+                        $parametrosTipos .= "i";
                     } elseif (gettype($parametro) == "double"){
-                        $params .= "d";
+                        $parametrosTipos .= "d";
                     } else {
                         $error = "Tipo de dato de parametro no reconocido";
                     }
                 }
 
-                if (!error){
-                    if(!empty($parametrosTipos)) $stmt->bind_param($parametrosTipos, $parametros);
+                if (!$error){
+                    // los tres puntos es funcionas como el spread operator de javascript
+                    if(!empty($parametros)) $stmt->bind_param($parametrosTipos,...$parametros);
+                    if ($stmt->execute()){
+                        $result = $stmt->get_result();
+                        $data = $result->fetch_all(MYSQLI_ASSOC);
+                    } else {
+                        $error = $stmt->error;
+                    }
                 }
+
+                $stmt->close();
 
             } else {
                 $error = $this->mysqli->error;
@@ -37,6 +46,47 @@
             return [
                 "error"=>$error,
                 "data"=>$data
+            ];
+        }
+
+        function exeQuery($strsql, $parametros=[]){
+            $error = false;
+            $affected = null;
+            $lastId = null;
+            $parametrosTipos = "";
+
+            if($stmt = $this->mysqli->prepare($strsql)){
+                foreach ($parametros as $parametro) {
+                    if (gettype($parametro) == "string" || gettype($parametro) == "NULL"){
+                        $parametrosTipos .= "s";
+                    } elseif (gettype($parametro) == "integer"){
+                        $parametrosTipos .= "i";
+                    } elseif (gettype($parametro) == "double"){
+                        $parametrosTipos .= "d";
+                    } else {
+                        $error = "Tipo de dato de parametro no reconocido";
+                    }
+                }
+
+                if (!$error){
+                    // los tres puntos es funcionas como el spread operator de javascript
+                    if(!empty($parametros)) $stmt->bind_param($parametrosTipos,...$parametros);
+                    if ($stmt->execute()){
+                        $affected = $stmt->affected_rows;
+                        $lastId = $stmt->insert_id;                      
+                    } else {
+                        $error = $stmt->error;
+                    }
+                }
+
+            } else {
+                $error = $this->mysqli->error;
+            }
+
+            return [
+                "error"=>$error,
+                "affected"=>$affected,
+                "lastId"=>$lastId
             ];
         }
     }

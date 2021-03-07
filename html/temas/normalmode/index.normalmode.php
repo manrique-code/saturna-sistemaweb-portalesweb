@@ -11,9 +11,9 @@
 		<title>Portales Web 2</title>
 	</head>
 	<body>	
-		<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
-		<script type="text/javascript" src="js/materialize.min.js"></script>
-		<script type="text/javascript" src="js/custom.js"></script>
+		<script type="text/javascript" src="<?php echo $urlRecursos?>/js/jquery.js"></script>
+		<script type="text/javascript" src="<?php echo $urlRecursos?>/js/materialize.js"></script>
+		<script type="text/javascript" src="<?php echo $urlTema?>/js/custom.js"></script>
 
 		<!-- Empieza el diseño -->
 		
@@ -49,11 +49,11 @@
 		<!-- slider -->
 		<div class="container" style="margin-top: 8px;">
 			<div class="sliderPW">
-				<a class="slide" href="#"><img src="img/slider1.jpeg"/></a>
-				<a class="slide" href="#"><img src="img/slider2.jpeg"/></a>
-				<a class="slide" href="#"><img src="img/slider3.jpeg"/></a>
-				<a class="slide" href="#"><img src="img/slider4.jpeg"/></a>
-				<a class="slide" href="#"><img src="img/slider5.jpeg"/></a>
+				<a class="slide" href="#"><img src="<?php echo $urlTema?>/img/slider1.jpeg"/></a>
+				<a class="slide" href="#"><img src="<?php echo $urlTema?>/img/slider2.jpeg"/></a>
+				<a class="slide" href="#"><img src="<?php echo $urlTema?>/img/slider3.jpeg"/></a>
+				<a class="slide" href="#"><img src="<?php echo $urlTema?>/img/slider4.jpeg"/></a>
+				<a class="slide" href="#"><img src="<?php echo $urlTema?>/img/slider5.jpeg"/></a>
 			</div>
 		</div>
 		<!-- Fin slider -->
@@ -82,8 +82,8 @@
 						<h2>Siguenos</h2>
 						<div class="contenido">
 							<p class="center">
-								<img src="img/fb_icon.png" />
-								<img src="img/twitter_Icon.png" />
+								<img src="<?php echo $urlTema?>/img/fb_icon.png" />
+								<img src="<?php echo $urlTema?>/img/twitter_Icon.png" />
 							</p>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 						<h2>Imagen Aleatoria</h2>
 						<div class="contenido">
 							<p class="center">
-								<img class="responsive-img" src="img/aleat.png" />
+								<img class="responsive-img" src="<?php echo $urlTema?>/img/aleat.png" />
 							</p>
 						</div>
 					</div>

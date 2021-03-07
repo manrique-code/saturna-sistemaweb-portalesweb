@@ -25,10 +25,7 @@
     $urlTema = "$urlSite/temas/$tema";
 
     // toma las variables que le pasamos desde la URI de nuestro sitio web
-    $idusuario = isset($_GET["idusuario"]) ? $_GET["idusuario"] : '';
-
-    // aqui estamso requiriendo el tema de nuestra página y es el tema que el servidor va a renderizar
-    // include "temas/$tema/index.normalmode.php";
+    $idmodulo = isset($_GET["mod"]) ? $_GET["mod"] : 'inicio';
 
     // creamos una instancia para la conexion a la base de datos
     $mysqli = new mysqli(
@@ -42,46 +39,8 @@
         echo "Fallón la conexión a MySQL: (". $mysqli-> connect_errno . ") " . $myqsli->connect_errno;
     } else {
         $f = new funciones($mysqli);
-        $strSql = "SELECT idusuario, nombre from usuarios ";
-        $params = array('srios');
-        $queryData = $f->getQueryData($strSql);
-
-        if(!$queryData["error"]) {
-            foreach($queryData["data"] as $usuario){
-                $id = $usuario['idusuario'];
-                $name = $usuario['nombre'];
-                echo "<h1>$id</h1>";
-                echo "<h2>$name</h2>";
-            }
-        } else {
-            echo "Ocurrio un error al consultar el usuario: " . $queryData["error"];
-        }
-
-        $strSql = "DELETE FROM usuarios WHERE idusuario = 'test'";
-        $queryData = $f->exeQuery($strSql);
-        var_dump($queryData);
-        // la conexión a la db se pudo hacer de manera correcta en este punto
-        // los queries en el ambiente web no se deben concatenar, en cambio se deben parametrizar
-        // porque si concatenamos damos lugar a sqlinjections de los datos.
-
-        // // revisamos si la consulta tiene algun error de sintaxis
-        // if ($stmt = $mysqli->prepare($strSql)){
-        //     $stmt->bind_param('s', $idusuario);
-        //     // si la consulta no contiene ningun error en la sintaxis ejecutamos la consulta
-        //     if ($stmt->execute()) {
-        //         // obtener los resultados dentro de un arreglo asociado
-        //         $result = $stmt->get_result();
-        //         $arregloResultados = $result->fetch_all(MYSQLI_ASSOC);
-        //         echo $arregloResultados[0]["nombre"];
-        //     } else {
-        //         $stmt->error;
-        //     }
-
-        // } else {
-
-        //     // si la consulta tiene algun error en la sintaxis nos dara este error
-        //     echo "Error al preparar la consulta " . $myqsli->error;
-        // }
+        // aqui estamso requiriendo el tema de nuestra página y es el tema que el servidor va a renderizar
+        require "temas/$tema/index.normalmode.php";
     }
 
     $mysqli->close();

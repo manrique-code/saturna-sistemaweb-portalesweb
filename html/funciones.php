@@ -89,5 +89,41 @@
                 "lastId"=>$lastId
             ];
         }
+
+        function modulo($idmodulo){
+            // como nosotros vamos a llamar un modulo
+            // primero verificamos que ese modulo exista en la base de datos
+            $strsql = "SELECT modulo, tipo, mostrartitulo, contenido FROM modulos WHERE idmodulo = ?";
+            $queryData = $this->getQueryData($strsql, [$idmodulo]);
+            $error = "";
+            if(!$queryData["error"]){
+                if(count($queryData["data"])){ 
+                    // tomamos el indice cero porque basicamente es el unico resultado que vamos a tener.
+                    $moduloData = $queryData["data"][0];
+                    $tipo = $moduloData["tipo"];
+                    $modulo = $moduloData["modulo"];
+
+                    if($moduloData["mostrartitulo"]) echo "<h2>$modulo</h2>";
+
+                    if($tipo){
+                        // es un modulo de PHP
+                    } else {
+                        // es un modulo de contenido
+                        echo $moduloData["contenido"];
+                    }
+                } else {
+                    // el modulo que pusimos dentro de la consulta no existe;
+                    $error = "El modulo solicitado no existe";
+                }
+            } else {
+                // la consulta tiene algun error de sintaxis.
+                $error = "No se pudo ejecutar la consulta del modulo: ".$queryData["error"];
+            }
+
+            if($error){
+                echo "<h1>Error al buscar el modulo</h1>";
+                echo "<p>$error</p>";
+            }
+        }
     }
 ?>

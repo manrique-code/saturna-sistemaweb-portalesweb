@@ -8,5 +8,5 @@
     $mysql_server = "localhost";
     $mysql_db = "portalesweb";
     $mysql_user = "admin";
-    $mysql_psw = "unicah123";
+    $mysql_psw = "unicah123";       
 ?>

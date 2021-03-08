@@ -38,7 +38,7 @@
     if ($mysqli->connect_errno) {
         echo "Fallón la conexión a MySQL: (". $mysqli-> connect_errno . ") " . $myqsli->connect_errno;
     } else {
-        $f = new funciones($mysqli);
+        $f = new funciones($mysqli, $urlSite);
         // aqui estamso requiriendo el tema de nuestra página y es el tema que el servidor va a renderizar
         require "temas/$tema/index.normalmode.php";
     }

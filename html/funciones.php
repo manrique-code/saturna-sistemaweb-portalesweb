@@ -3,9 +3,11 @@
     // vamos a crear un objeto para que mantenga todas las funciones
     class funciones {
         private $mysqli;
+        private $urlSite;
 
-        function __construct($mysqli){
+        function __construct($mysqli, $urlSite){
             $this->mysqli = $mysqli;
+            $this->urlSite = $urlSite;
         }
 
         function getQueryData($strsql, $parametros=[]){
@@ -95,7 +97,7 @@
             // primero verificamos que ese modulo exista en la base de datos
             $strsql = "SELECT modulo, tipo, mostrartitulo, contenido FROM modulos WHERE idmodulo = ?";
             $queryData = $this->getQueryData($strsql, [$idmodulo]);
-            $error = "";
+            $error = false;
             if(!$queryData["error"]){
                 if(count($queryData["data"])){ 
                     // tomamos el indice cero porque basicamente es el unico resultado que vamos a tener.
@@ -107,6 +109,14 @@
 
                     if($tipo){
                         // es un modulo de PHP
+                        if(file_exists("modulos/$idmodulo.modulo.php")){
+                            require("modulos/$idmodulo.modulo.php");
+                            if(file_exists("modulos/js/$idmodulo.script.js")){
+                                echo "<script src='$this->urlSite/modulos/js/$idmodulo.script.js'></script>";
+                            }
+                        } else {
+                            $error = "Archivo del modulo no existe";
+                        }
                     } else {
                         // es un modulo de contenido
                         echo $moduloData["contenido"];

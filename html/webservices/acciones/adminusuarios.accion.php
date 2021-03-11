@@ -1,42 +1,76 @@
 <?php
-    if (isset($post_operacion)){
+    if(isset($post_operacion)){
         switch($post_operacion){
             case "crearUsuario":
-                if(isset(
-                    $post_idusuario,
-                    $post_nombre,
-                    $post_email,
-                    $post_fechanacimiento,
-                    $post_password,
-                    $post_celular,
-                    $post_essuperadmin,
-                    $post_estado
-                )){
-                    if(
-                        !empty($post_idusuario) &&
-                        !empty($post_nombre) &&
-                        filter_var($post_email, FILTER_VALIDATE_EMAIL) &&
-                        strlen($post_password) == 128 &&
-                        !empty($post_celular)
-                    ) {
-                        $post_fechanacimiento = strtotime($post_fechanacimiento)
-                        if($post_fechanacimiento !== false){
+                /*
+                    endPoint para crear usuarios
+                    se requiere:
+                        idusuario
+                        nombre
+                        email
+                        fechanacimiento
+                        password (encriptado en SHA512)
+                        celular
+                        essuperadmin
+                        estado (0: inactivo, otro valor: activo)
+                */
+                if(isset($post_idusuario, $post_nombre, $post_email, $post_fechanacimiento, $post_password, $post_celular, $post_essuperadmin, $post_estado)){
+                    if(!empty($post_idusuario) && !empty($post_nombre) && filter_var($post_email, FILTER_VALIDATE_EMAIL) && strlen($post_password)==128 && !empty($post_celular)){
+                        try {
+                            $post_fechanacimiento = new DateTime($post_fechanacimiento);
+                            $post_fechanacimiento = $post_fechanacimiento->format("Y-m-d");
 
-                        } else {
-                            $text = "No se pudo validar la fecha de nacimiento";
+                            $llave = hash("sha512",rand());
+                            $post_password = hash("sha512",$post_password . $llave);
+
+                            $strsql = "INSERT INTO usuarios(idusuario, nombre, email, fecha_nacimiento
+                                                            , llave, password, celular
+                                                            , superadministrador, activo)
+                                        VALUES(?,?,?,?,?,?,?,?,?)";
+                            
+                            $parametros = [
+                                $post_idusuario, 
+                                $post_nombre, 
+                                $post_email, 
+                                $post_fechanacimiento, 
+                                $llave,
+                                $post_password, 
+                                $post_celular, 
+                                $post_essuperadmin ? 1 : 0, 
+                                $post_estado ? 1 : 0
+                            ];
+
+                            $queryData = $f->exeQuery($strsql, $parametros);
+                            if(!$queryData["error"]){
+                                $text = "Usuario Creado Exitosamente";
+                                $type = "success";
+                                $title = "Exito";
+                                unset($parametros[4]);
+                                unset($parametros[5]);
+                                $datareturn = $parametros;
+                            }
+                            else{
+                                $text = "Ocurrio un error al crear el usuario: " . $queryData["error"];
+                            }
                         }
-                    } else {
-                        $text = "Los datos enviados no están en el formato correcto";
+                         catch (Exception $e) {
+                            $text =  "No envio una fecha de nacimiento valida";
+                        }
                     }
-                } else {
-                    $text="No envió todos los datos necesarios para crear el usuario";
+                    else{
+                        $text = "Los datos enviados no estan en el formato correcto.";
+                    }
                 }
-                break;
+                else{
+                    $text = "No envio todos los datos necesarios para crear el usuario";
+                }
+            break;
             default:
-                $text = "No envió una operación válida";
+                $text = "no envio una operación valida";
                 break;
         }
-    } else {
-        $text = "No envión la operación que desea ejecutar";
+    }
+    else{
+        $text = "No envio la operación que desea ejecutar";
     }
 ?>

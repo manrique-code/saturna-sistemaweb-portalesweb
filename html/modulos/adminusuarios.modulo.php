@@ -1,14 +1,13 @@
 <?php
     global $f;
+    global $urlRecursos;
 ?>
-
-<a href="#mdl-usuario" class="btn green modal-trigger">AGREGAR USUARIO</a>
-
+<a href="#mdl-usuario" class="btn green modal-trigger">Agregar Usuario</a>
 <table>
     <thead>
         <tr>
-            <th>Codigo usuario</th>
-            <th>Nombre del usuario</th>
+            <th>Codigo Usuario</th>
+            <th>Nombre del Usuario</th>
             <th>E-Mail</th>
             <th>Celular</th>
             <th>Super-Administrador</th>
@@ -17,24 +16,20 @@
         </tr>
     </thead>
     <tbody>
-        <?php 
-            $modError = false;
-            $strsql = "SELECT idusuario, nombre, email, celular, superadministrador, activo FROM usuarios";
+    <?php
 
-            $queryData = $f->getQueryData($strsql);
-            if (!$queryData["error"]){
-                foreach($queryData["data"] as $usuario){
-                    $check = '<i class="fas fa-check-circle green-text" style="font-size:20px"></i>';
-                    $noCheck = '<i class="fas fa-times-circle red-text" style="font-size:20px"></i>';
 
-                    $superadmin = ($usuario["superadministrador"] 
-                                    ? $check
-                                    : $noCheck);
+        $modError = false;
+        $strsql = "SELECT idusuario, nombre, email, celular, superadministrador, activo FROM usuarios";
+        $queryData = $f->getQueryData($strsql);
+        if(!$queryData["error"]){
+            foreach($queryData["data"] as $usuario){
+                $check = '<i class="fas fa-check-circle green-text" style="font-size:20px"></i>';
+                $noCheck =  '<i class="fas fa-times-circle red-text" style="font-size:20px"></i>';
 
-                    $estado = ($usuario["activo"] 
-                                    ? $check
-                                    : $noCheck);
-        ?>
+                $superadmin = $usuario["superadministrador"] ? $check : $noCheck;
+                $estado = $usuario["activo"] ? $check : $noCheck;
+    ?>
                 <tr>
                     <td><?php echo $usuario["idusuario"];?></td>
                     <td><?php echo $usuario["nombre"];?></td>
@@ -43,89 +38,90 @@
                     <td class="center"><?php echo $superadmin;?></td>
                     <td class="center"><?php echo $estado;?></td>
                     <td class="center">
-                        <a 
-                            href="javascript:editarUsuario('<?php echo $usuario["idusuario"];?>')" 
-                            class="btn blue"
-                        >
-                        <i class="fas fa-edit"></i>
-                        </a>
-                        <a 
-                            href="javascript:eliminarUsuario('<?php echo $usuario["idusuario"];?>')" 
-                            class="btn red"
-                        >
-                        <i class="fas fa-trash-alt"></i>
-                        </a>
+                        <a href="javascript:editarUsuario('<?php echo $usuario["idusuario"];?>')" class="btn blue"><i class="fas fa-edit"></i></a>
+                        <a href="javascript:eliminarUsuario('<?php echo $usuario["idusuario"];?>')" class="btn red"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
-        <?php          
-                }
-            } else {
-                $modError = "Error al consultar los usuarios" . $queryData["error"];
+    <?php
             }
+        }
+        else{
+            $modError = "Error al consultar los usuarios: " . $queryData["error"];
+        }
+        if($modError){
+            echo "<tr><td colspan='7'>$modError</td></tr>";
+        }
 
 
-            if($modError){
-                echo "<tr><td colspan='7'>$modError</td></tr>";
-            }
-        ?>
+    ?>
     </tbody>
-
-  
 </table>
 
 <!-- Modal Structure -->
-<div id="mdl-usuario" class="modal" style="max-width: 780px">
+<div id="mdl-usuario" class="modal" style="max-width: 780px;">
     <div class="modal-content">
-    <h4>Agregar usuario</h4>
-    <form class="row">
-
+    <h4 >Agregar Usuario</h4>
+    <form class="row" id="frmUsuario">
         <div class="input-field col s12">
-            <input 
-                placeholder="Código del usuario sin espacios ni caracteres especiales" 
-                id="txtidusuario" 
-                type="text"
-            >
-            <label for="txtidusuario">Código de usuario</label>
+          <input placeholder="Codigo del usuario sin espacio ni caracteres especiales" id="txtidusuario" type="text">
+          <label for="txtidusuario">Código de Usuario</label>
         </div>
 
         <div class="input-field col s12">
-            <input 
-                placeholder="Código del usuario sin espacios ni caracteres especiales" 
-                id="txtidusuario" 
-                type="text"
-            >
-            <label for="txtidusuario">Nombre del usuario</label>
+          <input id="txtnombre" type="text">
+          <label for="txtnombre">Nombre del Usuario</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="txtemail" type="email" class="validate">
+          <label for="txtemail">E-Mail</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="txtfechanacimiento" type="text">
+          <label for="txtfechanacimiento">Fecha Nacimiento</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="txtcelular" type="text">
+          <label for="txtcelular">Celular</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="txtpassword" type="password">
+          <label for="txtpassword">Password</label>
+        </div>
+
+        <div class="col s12 l6 center">
+            <label>Administrador</label>
+            <div class="switch">
+                <label>
+                No
+                <input type="checkbox" id="chkEsAdmin">
+                <span class="lever"></span>
+                Si
+                </label>
+            </div>
+        </div>
+
+        <div class="col s12 l6 center">
+            <label>Activo</label>
+            <div class="switch">
+                <label>
+                No
+                <input type="checkbox" id="chkEstado" checked>
+                <span class="lever"></span>
+                Si
+                </label>
+            </div>
         </div>
         
-        <div class="input-field col s12">
-            <input 
-                id="txtfechanacimiento" 
-                type="date"
-            >
-            <label for="txtfechanacimiento">Fecha de nacimiento</label>
-        </div>
-
-        <div class="input-field col s12">
-            <input 
-                id="txtemail" 
-                type="email"
-                class="validate"                
-            >
-            <label for="txtemail">email</label>
-        </div>
-
-        <div class="input-field col s12">
-            <input 
-                id="txtemail" 
-                type="text"
-            >
-            <label for="txtemail">celular</label>
-        </div>
 
     </form>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn red">Cerrar</a>
-        <a href="#!" class="waves-effect waves-green btn green">Guardar</a>
+        <a href="javascript:crearUsuario()" class="waves-effect btn green">Guardar</a>
+        <a href="#!" class="modal-close waves-effect btn red">Cancelar</a>
     </div>
 </div>
+<script src="<?php echo $urlRecursos."/js/sweetalert2.min.js" ?>"></script>

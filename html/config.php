@@ -6,6 +6,4 @@
     $mysql_db = "portalesweb";
     $mysql_usr = "admin";
     $mysql_psw = "unicah123";
-
-    
 ?>

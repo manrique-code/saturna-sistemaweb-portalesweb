@@ -2,10 +2,12 @@
 class funciones{
     private $mysqli;
     private $urlSite;
+    private $cookieDomain;
 
-    function __construct($mysqli, $urlSite){
+    function __construct($mysqli, $urlSite, $cookieDomain){
         $this->mysqli = $mysqli;
         $this->urlSite = $urlSite;
+        $this->cookieDomain = $cookieDomain;
     }
 
     function getQueryData($strsql, $parametros=[]){
@@ -132,6 +134,38 @@ class funciones{
             echo "<h1>Error al Buscar el modulo</h1>";
             echo "<p>$error</p>";
         }
+    }
+
+    // debemos asegurarnos que sea lo primero que llamemos cuando inciamos sesion
+    function inicio_sesion() {
+        $sessionName = "pw_sistemaModular";
+        $secure = false;
+        $httponly = true;
+        // calculamos los segundos que dura cinco dia
+        $expire_cookie = (24*60*60) * 5;
+
+        if (ini_set('session.use_only_cookies', 1) === FALSE) {
+            echo "No se pudo iniciar una sesión segura (ini_set)";
+            exit();
+        }
+
+        $cookieParam = session_get_cookie_params();
+
+        session_set_cookie_params(
+            $expire_cookie,
+            $cookieParam["path"],
+            $this->cookieDomain,
+            $secure,
+            $httponly
+        );
+
+        session_name($sessionName);
+        session_start();
+    }
+
+    // funcion para saber si un usuario inicio sesion
+    function login($idusuario, $sha512password) {
+        
     }
 
 }

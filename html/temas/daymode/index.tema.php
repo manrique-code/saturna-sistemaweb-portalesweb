@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale = 1.0, 
     maximum-scale=1.0">
-    <link rel="stylesheet" href="./css/all.css">
-    <link rel="stylesheet" href="./css/fonts.css">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="<?php echo $urlTema?>/css/all.css">
+    <link rel="stylesheet" href="<?php echo $urlTema?>/css/fonts.css">
+    <link rel="stylesheet" href="<?php echo $urlTema?>/css/styles.css">
     <title>Saturna</title>
 </head>
 <body>    
@@ -32,13 +32,28 @@
             </div>
         </header>
 
+        <div id="logins" class="active">
+            <form action="" class="login-container">
+                <div class="login-input">
+                    <label for="txt-usuario">Usuario</label>
+                    <input type="text" name="" id="txt-usuario">
+                </div>
+                <div class="login-input">
+                    <label for="txt-contra">Contraseña</label>
+                    <input type="password" name="" id="txt-contra">
+                </div>
+                <button id="btn-login">Login</button>
+                <button id="btn-cancelar">Cancelar</button>
+            </form>
+        </div>
+
         <!-- lo mas visto -->
 
         <section class="mas-visto">
             <h1>Lo más visto</h1>
             <a href="#">
                 <div class="mv-card">
-                    <img src="./img/noticias/macbook.jpg" alt="MacBook Air" class="img-mv-card">
+                    <img src="<?php echo $urlTema?>/img/noticias/macbook.jpg" alt="MacBook Air" class="img-mv-card">
                     <div class="mv-content">
                         <a href=""><p class="category">Tecnología</p></a>
                         <h2>La nueva MacBook Air con M1</h2>
@@ -53,7 +68,7 @@
             <div class="ue-items">
                 <a href="#">
                     <div class="ue-cards">
-                        <img src="./img/noticias/lobster.jpg" alt="The Lobster" class="ue-img-cards">
+                        <img src="<?php echo $urlTema?>/img/noticias/lobster.jpg" alt="The Lobster" class="ue-img-cards">
                         <div class="ue-card-content">
                             <a href="#">
                                 <p class="cine">Cine</p>
@@ -65,7 +80,7 @@
                 </a>
                 <a href="#">
                     <div class="ue-cards">
-                        <img src="./img/noticias/graphql.png" alt="" class="ue-img-cards">
+                        <img src="<?php echo $urlTema?>/img/noticias/graphql.png" alt="" class="ue-img-cards">
                         <div class="ue-card-content">
                             <a href="#">
                                 <p class="tec">Tecnología</p>
@@ -77,7 +92,7 @@
                 </a>
                 <a href="#">
                     <div class="ue-cards">
-                        <img src="./img/noticias/s21ultra.jpg" alt="Galaxy S21 Ultra" class="ue-img-cards">
+                        <img src="<?php echo $urlTema?>/img/noticias/s21ultra.jpg" alt="Galaxy S21 Ultra" class="ue-img-cards">
                         <div class="ue-card-content">
                             <a href="#">
                                 <p class="tec">Tecnología</p>
@@ -96,13 +111,13 @@
                 <div class="calif-tec">
                     <p>11/10</p>
                 </div>
-                <img src="./img/recomendaciones/pubg.jpg" alt="PUBG">
+                <img src="<?php echo $urlTema?>/img/recomendaciones/pubg.jpg" alt="PUBG">
             </div>
             <div class="r-item">
                 <div class="calif-cine">
                     <p>10/10</p>
                 </div>
-                <img src="./img/recomendaciones/enemy.jpg" alt="Enemy (2014)" title="Enemy (2014)">
+                <img src="<?php echo $urlTema?>/img/recomendaciones/enemy.jpg" alt="Enemy (2014)" title="Enemy (2014)">
             </div>
         </aside>
 
@@ -116,7 +131,7 @@
                     <div class="apps">
                         <p>Mobile App Development</p>
                     </div>
-                    <img src="./img/cursos/aplicaciones.jpg" alt="">
+                    <img src="<?php echo $urlTema?>/img/cursos/aplicaciones.jpg" alt="">
                 </a>
             </div>
             <div class="cursos-items">
@@ -124,7 +139,7 @@
                     <div class="apps">
                         <p>Web Development</p>
                     </div>
-                    <img src="./img/cursos/web.jpg" alt="">
+                    <img src="<?php echo $urlTema?>/img/cursos/web.jpg" alt="">
                 </a>
             </div>
         </section>
@@ -133,7 +148,7 @@
             <h2>Más artículos</h2>
             <a href="#">
                 <div class="ma-cards">
-                    <img src="./img/noticias/ubuntu.png" alt="Linx Ubuntu">
+                    <img src="<?php echo $urlTema?>/img/noticias/ubuntu.png" alt="Linx Ubuntu">
                     <div class="ma-card-content">
                         <a href="#">
                             <p class="tec">Tecnología</p>
@@ -156,6 +171,6 @@
 
     </div>
 
-    <script src="./js/scripts.js"></script>
+    <script src="<?php echo $urlTema?>//js/scripts.js"></script>
 </body>
 </html>

@@ -150,6 +150,100 @@ h2 {
 
 /* fin estilo de la barra de navegacion ------------------------------------------ */
 
+/* login --------------------------------------------------------------------------- */
+#logins.active {
+    position: fixed;
+    display: flex;
+    flex-flow: row nowrap;
+    right: 80px;
+    top: 80px;
+    min-width: 300px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: white;
+    background-image: url("../img/login.png");
+    background-repeat: no-repeat;
+    background-position: 70px center;
+    background-size: cover;
+    z-index: 100;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+#logins.active .login-container {
+    width: 100%;
+    padding: 25px 20px 15px 20px;
+}
+
+#logins.active .login-container .login-input {
+    width: calc(100% - 20px);
+    border: 1px solid #2f364036;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.5);
+}
+
+#logins.active .login-container .login-input label {
+    font-weight: 500;
+    font-size: 15px;
+    color: #2f3640;
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#logins.active .login-container .login-input input {
+    border: none;
+    font-size: 20px;
+    padding: 10px 10px 10px 0px;
+    
+}
+
+#logins.active .login-container button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 0px;
+    border-color: unset;
+    border-style: none;
+}
+
+#btn-login {
+    background-color: #192a56;
+    color: white;
+    font-size: 15px;
+    font-family: "Aktiv Grotesk Corp";
+    font-weight: bold;
+    box-shadow: 0px 0px 5px -2px #192a56;
+    transition: all .4s ease;
+}
+
+#btn-login:hover {
+    background-color: #2e4d9b;
+    box-shadow: 0px 0px 10px -2px #192a56;
+}
+
+#btn-cancelar {
+    color: #192a56;
+    font-size: 15px;
+    font-family: "Aktiv Grotesk Corp";
+    font-weight: bold;
+    box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.3);
+    transition: all .4s ease;
+} 
+
+#btn-cancelar:hover {
+    color: #192a56;
+    background-color: #d3d3d3;
+    box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.7);
+} 
+
+/* fin estilo login ---------------------------------------------------------------- */
+
 /* tarjeta de mas visto ------------------------------------------------------------ */
 .mas-visto {
     padding: 0px 80px;

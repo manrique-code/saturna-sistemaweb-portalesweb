@@ -165,7 +165,36 @@ class funciones{
 
     // funcion para saber si un usuario inicio sesion
     function login($idusuario, $sha512password) {
-        
+        $error = false;
+        // obteniendo la llave y la contra del usuario
+        $strsql = "SELECT llave, password, nombre, email, activo, idusuario
+                    FROM usuarios 
+                    WHERE idusuario = ? or email = ?";
+        $queryData = $this->getQueryData($strsql, [$idusuario, $idusuario]);
+        if (!queryData["error"]) {
+            if (count($queryData["data"] === 1)) {
+                $userData = $queryData["data"][0];
+                
+                if ($userData["activo"]) {
+                    $passwordEnviado = $sha512password.$userData["llave"];
+                    if ($passwordEnviado == $userData["password"]) {
+                        $_SESSION["idusuario"] = $userData["idusuario"];
+                        $_SESSION["email"] = $userData["email"];
+                        $_SESSION["nombre"] = $userData["nombre"];
+                    } else {
+                        $error = "Contraseña incorrecta";
+                    }
+                } else {
+                    $error = "Usuario suspendido";
+                }
+
+            } else {
+                $error = "El usuario solicitado no existe";
+            }
+        } else {
+            $error = "Ocurrió un error al consultar el usuario" . $queryData["error"];
+        }
+        return ["error"=>error];
     }
 
 }

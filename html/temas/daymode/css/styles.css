@@ -160,7 +160,7 @@ h2 {
     min-width: 300px;
     border: 1px solid rgba(0, 0, 0, 0.3);
     background-color: white;
-    background-image: url("../img/login.png");
+    background-image: url('../img/assets/login.png');
     background-repeat: no-repeat;
     background-position: 70px center;
     background-size: cover;

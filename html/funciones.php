@@ -136,6 +136,48 @@ class funciones{
         }
     }
 
+    function bloque($idbloque){
+        $strsql = "SELECT bloque, tipo, mostrartitulo, contenido FROM bloques WHERE idbloque = ?";
+        $queryData = $this->getQueryData($strsql,[$idbloque]);
+        $error = false;
+        if(!$queryData["error"]){
+            if(count($queryData["data"])){
+                $bloqueData = $queryData["data"][0];
+                $tipo = $bloqueData["tipo"];
+                $bloque = $bloqueData["bloque"];
+                if($bloqueData["mostrartitulo"]) echo "<h2>$bloque</h2>";
+
+                if($tipo){
+                    //Es un bloque PHP
+                    if(file_exists("bloques/$idbloque.bloque.php")){
+                        require "bloques/$idbloque.bloque.php";
+                        if(file_exists("bloques/js/$idbloque.script.js")){
+                            echo "<script src='$this->urlSite/bloques/js/$idbloque.script.js'></script>";
+                        }
+                    }
+                    else{
+                        $error = "Archivo del bloque no existe";
+                    }
+                }
+                else{
+                    //Es un bloque Contenido
+                    echo $bloqueData["contenido"];
+                }
+            }
+            else{
+                $error = "El bloque solicitado no existe";
+            }
+        }
+        else{
+            $error = "No se pudo ejecutar la consulta del bloque: ".$queryData["error"];
+            
+        }
+
+        if($error){
+            echo "<h1>Error al Buscar el bloque</h1>";
+            echo "<p>$error</p>";
+        }
+    }
     // debemos asegurarnos que sea lo primero que llamemos cuando inciamos sesion
     function inicio_sesion() {
         $sessionName = "pw_sistemaModular";
@@ -171,12 +213,12 @@ class funciones{
                     FROM usuarios 
                     WHERE idusuario = ? or email = ?";
         $queryData = $this->getQueryData($strsql, [$idusuario, $idusuario]);
-        if (!queryData["error"]) {
-            if (count($queryData["data"] === 1)) {
+        if (!$queryData["error"]) {
+            if (count($queryData["data"]) === 1) {
                 $userData = $queryData["data"][0];
                 
                 if ($userData["activo"]) {
-                    $passwordEnviado = $sha512password.$userData["llave"];
+                    $passwordEnviado = $sha512password;
                     if ($passwordEnviado == $userData["password"]) {
                         $_SESSION["idusuario"] = $userData["idusuario"];
                         $_SESSION["email"] = $userData["email"];
@@ -194,7 +236,24 @@ class funciones{
         } else {
             $error = "Ocurrió un error al consultar el usuario" . $queryData["error"];
         }
-        return ["error"=>error];
+        return ["error"=>$error];
+    }
+
+    function usuarioConectado() {
+        $retorno = false;
+        if (isset(
+            $_SESSION["idusuario"],
+            $_SESSION["email"],
+            $_SESSION["nombre"]
+        )) {
+            $retorno = [
+                "idusuario"=>$_SESSION["idusuario"],
+                "nombre"=>$_SESSION["nombre"],
+                "email"=>$_SESSION["email"]
+            ];
+        }
+
+        return $retorno;
     }
 
 }

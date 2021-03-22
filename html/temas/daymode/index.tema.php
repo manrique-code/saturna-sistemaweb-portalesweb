@@ -33,18 +33,9 @@
         </header>
 
         <div id="logins" class="active">
-            <form action="" class="login-container">
-                <div class="login-input">
-                    <label for="txt-usuario">Usuario</label>
-                    <input type="text" name="" id="txt-usuario">
-                </div>
-                <div class="login-input">
-                    <label for="txt-contra">Contraseña</label>
-                    <input type="password" name="" id="txt-contra">
-                </div>
-                <button id="btn-login">Login</button>
-                <button id="btn-cancelar">Cancelar</button>
-            </form>
+            <?php
+                $f->bloque("loginform"); 
+            ?>
         </div>
 
         <!-- lo mas visto -->
@@ -171,6 +162,7 @@
 
     </div>
 
-    <script src="<?php echo $urlTema?>//js/scripts.js"></script>
+    <script src="<?php echo $urlTema?>/js/scripts.js"></script>
+    <script src="<?php echo $urlRecursos?>/js/jquery.min.js"></script>
 </body>
 </html>

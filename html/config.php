@@ -1,5 +1,5 @@
 <?php
-    $tema = "tema_azul";    
+    $tema = "daymode";    
     
     /********** Conexion de DB ************/ 
     $mysql_svr = "localhost";

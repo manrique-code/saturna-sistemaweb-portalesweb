@@ -256,4 +256,19 @@ class funciones{
         return $retorno;
     }
 
+    function esAdmin() {
+        $esadmin = false;
+        $userData = $this->usuarioConectado();
+        if ($userData) {
+            $strsql = "SELECT IFNULL(SUM(superadminitrador), 0) as esadmin
+                        FROM usuarios
+                        WHERE idusuario = ? and estado = 1";
+            $queryData = $this->getQueryData($strsql, [$userData["idusuario"]]);
+            if (!$queryData["error"]) {
+                $esadmin = $queryData["data"][0]["esadmin"];
+            }
+        }
+        return $esadmin;
+    }
+
 }

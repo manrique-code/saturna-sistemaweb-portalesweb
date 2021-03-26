@@ -151,7 +151,14 @@ h2 {
 /* fin estilo de la barra de navegacion ------------------------------------------ */
 
 /* login --------------------------------------------------------------------------- */
+#logins {
+    opacity: 0;
+    transition: all .4s ease;
+    display: none;
+}
+
 #logins.active {
+    opacity: 1;
     position: fixed;
     display: flex;
     flex-flow: row nowrap;

@@ -24,7 +24,7 @@
                 <a href="#">Cine</a>
                 <a href="#">Cursos</a>
                 <a href="#">About us</a>
-                <a href="#">Log-in</a>
+                <a href="#" id="login-usuario">Login</a>
             </nav>
             <div class="icons-nav">
                 <a href="#" id="user"><i class="far fa-user-circle user-header"></i></a>
@@ -38,8 +38,9 @@
             ?>
         </div>
 
-        <!-- lo mas visto -->
+        <?php $f->modulo($idmodulo) ;?>
 
+        <!-- lo mas visto -->
         <section class="mas-visto">
             <h1>Lo más visto</h1>
             <a href="#">
@@ -161,6 +162,7 @@
         </footer>
 
     </div>
+        
 
     <script src="<?php echo $urlTema?>/js/scripts.js"></script>
     <script src="<?php echo $urlRecursos?>/js/jquery.min.js"></script>

@@ -17,11 +17,13 @@
         $nombre = $usuarioConectado["nombre"];
         $idusuario = $usuarioConectado["idusuario"];
 ?>
-        <h2>Bienvenido</h2>
-        <br>
-        <p>Bienvenido <a href="?mod=perfilusuario&idusuario=<?php echo $idusuario?>"><?php echo $nombre?></a></p>
-        <br>
-        <p class="center">Bienvenido <a href="./logout.php" class="btn red">Salir</a></p>
+        <form action="" class="login-container">
+        <div class="login-input">
+            <h2>Bienvenido</h2>
+            <p>Bienvenido <a href="?mod=perfilusuario&idusuario=<?php echo $idusuario?>"><?php echo $nombre?></a></p>
+            <p class="center"><a href="./logout.php" class="btn red">Salir</a></p>
+        </div>
+        </form>
 <?php
     } else {
 ?>

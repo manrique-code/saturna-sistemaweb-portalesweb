@@ -2,4 +2,7 @@
     global $f;
     global $urlRecursos;
 ?>
-<h3>Este es el perfil de usuario</h3>
+
+<div class="seccion">
+    <h3>Este es el perfil de usuario</h3>
+</div>

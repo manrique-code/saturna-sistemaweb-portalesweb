@@ -38,7 +38,9 @@
             ?>
         </div>
 
-        <?php $f->modulo($idmodulo) ;?>
+        <div class="seccion">
+            <?php $f->modulo($idmodulo);?>
+        </div>
 
         <!-- lo mas visto -->
         <section class="mas-visto">

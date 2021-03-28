@@ -131,7 +131,7 @@ class funciones{
         }
 
         if($error){
-            echo "<h1>Error al Buscar el modulo</h1>";
+            echo "<h2>Error al Buscar el modulo</h2>";
             echo "<p>$error</p>";
         }
     }
@@ -269,6 +269,20 @@ class funciones{
             }
         }
         return $esadmin;
+    }
+
+    function existeEmail($email) {
+        $existeEmail = "";
+        $strsql = "SELECT IFNULL(COUNT(*), 0) as email
+                    FROM usuarios
+                    WHERE email = ?";
+
+        $queryData = $this->getQueryData($strsql, [$email]);
+
+        if (!$queryData["error"]) {
+            $existeEmail = $queryData["data"][0]["email"];
+        }
+        return $existeEmail;
     }
 
 }

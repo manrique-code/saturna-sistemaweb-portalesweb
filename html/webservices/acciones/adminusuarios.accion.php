@@ -65,6 +65,41 @@
                     $text = "No envio todos los datos necesarios para crear el usuario";
                 }
             break;
+            case "editarPerfilUsuario": 
+                if(isset($post_idusuario, $post_nombre, $post_email, $post_fechanacimiento, $post_password, $post_celular)){
+                    if(empty($post_password)) {
+                        $strsql = "
+                            UPDATE usuarios
+                            SET nombre = ?,
+                                email = ?,
+                                fecha_nacimiento = ?,
+                                celular = ?,
+                            WHERE idusuario = ?
+
+                        ";
+
+                        $parametros = [
+                            $post_nombre,
+                            $post_email,
+                            $post_fechanacimiento,
+                            $post_celular,
+                            $post_idusuario
+                        ];
+
+                        $text = "Datos ingresados de manera correcta";
+                        $type = "success";
+                        $title = "Exito";
+                        unset($parametros[4]);
+                        unset($parametros[5]);
+                        $datareturn = $parametros;
+                    } else {
+                        
+                    }
+                }
+                else{
+                    $text = "No envio todos los datos necesarios para crear el usuario";
+                }
+                break;
             default:
                 $text = "no envio una operación valida";
                 break;

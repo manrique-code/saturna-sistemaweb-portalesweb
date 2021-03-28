@@ -6,6 +6,6 @@ function procesarPassword() {
     $("#txt-contra").val("");
     pass = sha512(pass);
     console.log(pass);
-    $("#txt-contra-encrypt").val(pass.toUpperCase());
+    $("#txt-contra-encrypt").val(pass);
     $("#frmUserLogin").attr("action", "./").submit();
 }

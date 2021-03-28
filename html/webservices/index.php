@@ -18,7 +18,7 @@
         $text = "Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
     }
     else{
-        $f = new funciones($mysqli, $urlSite, $domain = $_SERVER["SEVER_NAME"];);
+        $f = new funciones($mysqli, $urlSite, $domain = $_SERVER['SERVER_NAME']);
         $f->inicio_sesion();  
         foreach($variablesPOST as $nombre=>$valor){
             $nombre = "post_$nombre";

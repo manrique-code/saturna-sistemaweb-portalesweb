@@ -7,6 +7,12 @@
                         $post_fechanacimiento = new DateTime($post_fechanacimiento);
                         $post_fechanacimiento = $post_fechanacimiento->format("Y-m-d");
 
+                        // NOTA PARA EL INGENIERO
+                        // SI LAS IMAGENES NO FUNCIONAN TIENE QUE INSTALAR UN MODULO PARA EL RENDERIZADO DE
+                        // IMÁGENES
+                        // UTILICE EL SIGUIENTE COMANDO EN EL SERVIDOR DE DEBIAN
+                        // [SUDO] APT INSTALL phpx.x-gd
+                        // donde x.x es la version de php que tenga instalada
                         if (!empty($post_image)) {
                             $imageName = "/home/administrador/www/html/uploads/imagenes_usuarios/$post_idusuario.png";
                             file_put_contents($imageName, file_get_contents($post_image));

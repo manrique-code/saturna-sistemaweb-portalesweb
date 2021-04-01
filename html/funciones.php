@@ -260,9 +260,9 @@ class funciones{
         $esadmin = false;
         $userData = $this->usuarioConectado();
         if ($userData) {
-            $strsql = "SELECT IFNULL(SUM(superadminitrador), 0) as esadmin
+            $strsql = "SELECT IFNULL(SUM(superadministrador), 0) as esadmin
                         FROM usuarios
-                        WHERE idusuario = ? and estado = 1";
+                        WHERE idusuario = ? and activo = 1";
             $queryData = $this->getQueryData($strsql, [$userData["idusuario"]]);
             if (!$queryData["error"]) {
                 $esadmin = $queryData["data"][0]["esadmin"];

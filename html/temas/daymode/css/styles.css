@@ -259,6 +259,182 @@ h3 {
 }
 
 /* fin estilo login ---------------------------------------------------------------- */
+
+.btn-cancelar {
+  border: none;
+  border-radius: 6px;
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  font-weight: 500;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  background-color: #eaeaea;
+  margin: 0px 20px 20px 0px;
+  text-decoration: none;
+  color: #2f3640;
+  font-size: 15px;
+  transition: all ease 0.4s;
+  font-family: "Aktiv Grotesk Corp";
+  cursor: pointer;
+}
+
+.btn-cancelar:hover {
+  background-color: #d0d0d0;
+}
+
+.btn-guardar {
+  border: none;
+  border-radius: 6px;
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  font-weight: 500;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  background-color: #273c75;
+  margin: 0px 20px 20px 0px;
+  text-decoration: none;
+  color: white;
+  transition: all ease 0.4s;
+  font-size: 15px;
+  font-family: "Aktiv Grotesk Corp";
+  cursor: pointer;
+}
+
+.btn-guardar:hover {
+  background-color: #3a5ab1;
+}
+/* creacion de articulos ------------------------------------------------------------*/
+
+#article-title {
+  margin-bottom: 10px;
+}
+
+.usuario-conectado {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.usuario-conectado img {
+  height: 40px;
+  width: 40px;
+  border-radius: 80px;
+  margin-right: 8px;
+}
+
+#menu {
+  opacity: 0;
+}
+
+.usuario-conectado p {
+  font-size: 20px;
+  font-weight: 500;
+  color: #a0a0a0;
+  margin: 0;
+  margin-right: 10px;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-flow: column wrap;
+  margin-bottom: 20px;
+}
+
+.frm-articulo {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.frm-articulo label {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.frm-articulo fieldset label {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.frm-articulo fieldset input {
+  font-size: 20px;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.frm-articulo fieldset select {
+  font-size: 17px;
+  padding: 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.frm-articulo fieldset #txt-tags {
+  font-size: 17px;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.frm-articulo #publicar-checkbox {
+  margin-top: 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.frm-articulo #publicar-checkbox input {
+  width: 20px;
+  height: 20px;
+}
+
+.frm-articulo #publicar-checkbox label {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+#tag-categorias {
+  padding-bottom: 20px;
+}
+
+#tag-categorias p {
+  margin: 0;
+  padding: 10px;
+  background-color: #a0a0a0;
+  display: inline-block;
+  border-radius: 10px;
+  color: white;
+  margin: 0px 5px 5px 0px;
+  transition: all ease 0.4s;
+}
+
+#tag-categorias p:hover {
+  background-color: #bebebe;
+  cursor: pointer;
+}
+
+#tag-categorias p::before {
+  content: "X";
+  font-weight: bold;
+  margin-right: 7px;
+}
+
+/* fin creacion de articulos --------------------------------------------------------*/
+
 /* inputs del perfil de usuario -----------------------------------------------------*/
 .contenedor-foto-perfil {
   width: 100%;

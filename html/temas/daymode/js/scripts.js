@@ -65,8 +65,8 @@ window.onscroll = () => {
 document.getElementById("login-usuario").addEventListener("click", (event) => {
     loginAbierto = !loginAbierto;
     if (loginAbierto) {
-        formLogin.classList.remove("active");
-    } else {
         formLogin.classList.add("active");
+    } else {
+        formLogin.classList.remove("active");
     }
 });

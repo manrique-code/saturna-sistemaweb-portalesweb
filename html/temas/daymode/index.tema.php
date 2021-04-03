@@ -26,7 +26,7 @@
                 <a href="#">Cursos</a>
                 <a href="#">About us</a>
                 <a href="#" id="login-usuario">Login</a>
-                <a href=<?php echo "$urlSite/?mod=perfilusuario"?> title="Configuraciones"><i class="fas fa-cog"></i></a>
+                <a href=<?php echo "$urlSite/?mod=adminarticulo&accion=crear"?> title="Configuraciones"><i class="fas fa-cog"></i></a>
             </nav>
             <div class="icons-nav">
                 <a href="#" id="user"><i class="far fa-user-circle user-header"></i></a>
@@ -34,7 +34,7 @@
             </div>
         </header>
 
-        <div id="logins" class="active">
+        <div id="logins" class="">
             <?php
                 $f->bloque("loginform"); 
             ?>

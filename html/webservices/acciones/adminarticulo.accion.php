@@ -90,6 +90,84 @@
                 }
                 break;
             case "editar":
+                if(isset(
+                    $post_titulo,
+                    $post_contenido,
+                    $post_estado,
+                    $post_idusuario,
+                    $post_tags,
+                    $post_categorias,
+                    $post_categorias_eliminadas
+                )) {
+                    $strSql = "";
+                    $parametros = null;
+                    if (trim($post_contenido) === "") {
+                        $strSql = "
+                            UPDATE mod_articulos
+                            SET titulo = ?,
+                                fecha = now(),
+                                estado = ?,
+                                idusuario = ?,
+                                tags = ?
+                            WHERE idarticulo = ?
+                        "; 
+                        $parametros = [
+                            $post_titulo,
+                            $post_estado,
+                            $post_idusuario,
+                            $post_tags,
+                        ]
+                    } else {
+                        $strSql = "
+                            UPDATE mod_articulos
+                            SET titulo = ?,
+                                contenido = ?,
+                                fecha = now(),
+                                estado = ?,
+                                idusuario = ?,
+                                tags = ?
+                            WHERE idarticulo = ?
+                        "; 
+                        $parametros = [
+                            $post_titulo,
+                            $post_contenido,
+                            $post_estado,
+                            $post_idusuario,
+                            $post_tags,
+                        ]
+                    }
+
+                    // cambiar los datos del articulo 
+                    $queryData = $f->getQueryData();
+                    if (!$queryData["error"]) {
+                        // cambiar las referencias de categorias pertenecientes al articulo
+
+                    }
+
+                } else {
+                    $text = "No envio todos los datos necesarios para crear el articulo. Intentelo de nuevo";
+                }
+                break;
+            case "eliminar":
+                if (isset($post_idarticulo)) {
+                    $queryEliminarArticulo = "DELETE FROM mod_articulos WHERE idarticulo = ?";
+                    $parametros = [$post_idarticulo];
+                    $queryData = $f->exeQuery($queryEliminarArticulo, $parametros);
+
+                    if (!$queryData["error"]) {
+                        $text = "Artículo eliminado con éxito.";
+                        $type = "success";
+                        $title = "Éxito";
+                        $datareturn = $parametros;
+                    } else {
+                        $text = "No se ha podido eliminar el artículo: " + $queryData['error'];
+                        $type = "error";
+                        $title = "Éxito";
+                        $datareturn = $parametros;
+                    }
+                } else {
+                    $text = "No envio todos los datos necesarios para crear el articulo. Intentelo de nuevo";
+                }
                 break;
             default:
                 $text = "no envio una operación valida";
@@ -106,5 +184,10 @@
         $corchetes = ["[", "]", " ", "\""];
         $x = str_replace($corchetes, "", $c);
         return $x;
+    }
+
+    // algoritmo para saber cual categoria fue eliminada 
+    function getEliminatedCategory($idArticulo, ) {
+
     }
 ?>

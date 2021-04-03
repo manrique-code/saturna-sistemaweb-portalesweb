@@ -51,16 +51,16 @@ h3 {
   background-color: #fafafa;
   margin-bottom: 20px;
   z-index: 100;
-
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-
+  opacity: 1;
   transition: 0.4s ease;
 }
 
 .header.active {
   color: #fff;
+  opacity: 0.975;
   background-color: #192a56;
   transition: 0.4s ease;
 }
@@ -434,6 +434,23 @@ fieldset {
 }
 
 /* fin creacion de articulos --------------------------------------------------------*/
+
+/* tabla de articulos -------------------------------------------------------------- */
+
+.btn-accion-table {
+  text-decoration: none;
+  color: #3a5ab1;
+  padding: 10px;
+  font-size: 20px;
+  /* background-color: rgba(0, 0, 0, 0.2); */
+  border-radius: 6px;
+  transition: all ease 0.4s;
+}
+
+.btn-accion-table:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+/* fin tabla de articulos ---------------------------------------------------------- */
 
 /* inputs del perfil de usuario -----------------------------------------------------*/
 .contenedor-foto-perfil {

@@ -19,9 +19,10 @@
 ?>
         <form action="" class="login-container">
         <div class="login-input">
-            <h2>Bienvenido</h2>
-            <p>Bienvenido <a href="?mod=perfilusuario&idusuario=<?php echo $idusuario?>"><?php echo $nombre?></a></p>
-            <p class="center"><a href="./logout.php" class="btn red">Salir</a></p>
+            <h2>Bienvenido, <br> <a href="?mod=perfilusuario&idusuario=<?php echo $idusuario?>"><?php echo $nombre?></a></h2>
+            <hr class="optionLoginSeparator">
+            <div ><a href="./logout.php" class="buttonOptionsOverlay"> <i class="fas fa-cog iconOUt"></i></i> Opciones</a></div>
+            <div ><a href="./logout.php" class="buttonLogOutOverlay"> <i class="fas fa-sign-out-alt iconOUt"></i> Cerrar sesión</a></div>
         </div>
         </form>
 <?php

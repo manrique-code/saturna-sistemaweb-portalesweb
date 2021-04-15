@@ -105,6 +105,10 @@ h3 {
   transition: 0.4s ease;
 }
 
+.header nav a:last-child {
+  padding-right: 0px;
+}
+
 /* ponemos el mouse sobre los elementos de la barra de navegación */
 .header nav a:hover {
   color: #2f5fde;
@@ -191,10 +195,9 @@ h3 {
 }
 
 #logins.active .login-container .login-input {
-  width: calc(100% - 20px);
   border: 1px solid #2f364036;
   border-radius: 6px;
-  padding: 10px;
+  padding: 20px;
   margin-bottom: 20px;
   background-color: white;
   box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.5);
@@ -227,6 +230,57 @@ h3 {
   border-color: unset;
   border-style: none;
 }
+
+/* login overlay -------------------------------------------------------------------- */
+
+.buttonLogOutOverlay {
+  display: block;
+  text-decoration: none;
+  color: #c23616;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 10px;
+  transition: all ease 0.4s;
+}
+
+.buttonLogOutOverlay:hover {
+  background-color: rgba(194, 53, 22, 0.2);
+}
+
+.buttonOptionsOverlay {
+  display: block;
+  text-decoration: none;
+  color: #2f3640;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 10px;
+  transition: all ease 0.4s;
+}
+
+.buttonOptionsOverlay:hover {
+  background-color: rgba(47, 54, 64, 0.2);
+}
+
+.iconOUt {
+  margin-right: 5px;
+  align-self: flex-start;
+}
+
+.optionLoginSeparator {
+  margin: 10px auto;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* login overlay -------------------------------------------------------------------- */
 
 #btn-login {
   background-color: #192a56;
@@ -431,6 +485,13 @@ fieldset {
   content: "X";
   font-weight: bold;
   margin-right: 7px;
+}
+
+#img-perfil {
+  height: 35px;
+  width: 35px;
+  border-radius: 80px;
+  vertical-align: middle;
 }
 
 /* fin creacion de articulos --------------------------------------------------------*/

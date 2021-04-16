@@ -54,6 +54,7 @@ h3 {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  align-items: center;
   opacity: 1;
   transition: 0.4s ease;
 }
@@ -278,6 +279,13 @@ h3 {
   margin: 10px auto;
   border-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+}
+
+.optionsButton {
+  margin-left: 10px;
+  color: #d0d0d0;
+  font-size: 25px;
+  align-self: center;
 }
 
 /* login overlay -------------------------------------------------------------------- */

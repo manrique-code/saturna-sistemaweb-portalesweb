@@ -39,6 +39,10 @@
 <body>    
     <div class="contenedor">
 
+        <?php 
+            
+        ?>
+
         <!-- barra de navegacion -->
         <header class="header">
             <div class="logo">
@@ -63,6 +67,8 @@
                                     echo "$urlSite/uploads/imagenes_usuarios/defaultimage.png";
                                 }
                             ?> alt="" id="img-perfil" title=<?php echo $currentUserId;?>>
+                            <i class="fas fa-cog optionsButton"></i>
+
                         <?php
                     } else { echo "Iniciar sesión";}
                 ?></div>
@@ -83,7 +89,6 @@
         <div class="seccion">
             <?php $f->modulo($idmodulo);?>
         </div>
-
         
 
         <footer>

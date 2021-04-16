@@ -1,17 +1,27 @@
 const tagCategorias = document.getElementById("tag-categorias");
-const totalSelectElements = document.getElementById("cbo-categorias").childElementCount;
+const totalSelectElements = (document.getElementById("cbo-categorias")) && document.getElementById("cbo-categorias").childElementCount;
 // const menu = document.getElementById("menu");
 let error = false;
 let editor;
 
 // adding the editor to the form
-ClassicEditor.create(document.querySelector("#editor")).then(newEditor => editor = newEditor).catch(error => console.log(error));
+ClassicEditor.create(document.querySelector("#editor")).then(newEditor => { editor = newEditor }).catch(error => console.log(error));
+
+console.log("Datos de contenido: ", document.getElementById("contenido-articulo").innerHTML);
+
+document.getElementById("cbx-cargar-contenido").addEventListener("click", () => {
+    if (document.getElementById("cbx-cargar-contenido").checked)
+        editor.setData(document.getElementById("contenido-articulo").innerHTML);
+    else
+        editor.setData("");
+});
+
 
 // ---------------------------------------VALIDACIONES------------------------------------------------------------------------------------------------
-// validando el formulario del título contenga datos cuando se cambia a otro formulario
 document.getElementById("txt-titulo-articulo").addEventListener("blur", e => {
-    if (document.getElementById("txt-titulo-articulo").value == "") {
+    if (document.getElementById("txt-titulo-articulo").value === "") {
         error = true;
+        console.log(document.getElementById("txt-titulo-articulo").value);
         e.target.style.border = "1px solid #c23616";
         if (document.getElementById("error-titulo") === null)
             document.getElementById("txt-titulo-articulo").insertAdjacentHTML(
@@ -66,7 +76,7 @@ document.getElementById("txt-tags").addEventListener("keyup", e => {
 });
 
 
-const validarFormulario = () => {
+const validarFormulario = (create = true) => {
     // haciendo validaciones al formulario
     if (document.getElementById("txt-titulo-articulo").value == "") {
         error = true;
@@ -91,28 +101,30 @@ const validarFormulario = () => {
             : document.getElementById("error-titulo").remove();
     }
 
-    // validando el select para ver que el usuario seleccione aunque sea una opcion
-    if (document.getElementById("tag-categorias").childElementCount == 0) {
-        error = true;
-        document.getElementById("cbo-categorias").style.border = "1px solid #c23616";
-        document.getElementById("cbo-categorias").focus();
-        if (document.getElementById("error-categorias") === null)
-            document.getElementById("cbo-categorias").insertAdjacentHTML(
-                "afterend", "<p style='color:#c23616; margin: 0; font-size: 13px' id='error-categorias'>Selecciona al menos una categoría para este artículo.</p>"
-            );
-        else {
-            document.getElementById("error-categorias").remove();
-            document.getElementById("cbo-categorias").insertAdjacentHTML(
-                "afterend", "<p style='color:#c23616; margin: 0; font-size: 13px'id='error-categorias'>Selecciona al menos una categoría para este artículo.</p>"
-            );
-        }
+    if (create) {
+        // validando el select para ver que el usuario seleccione aunque sea una opcion
+        if (document.getElementById("tag-categorias") && document.getElementById("tag-categorias").childElementCount == 0) {
+            error = true;
+            document.getElementById("cbo-categorias").style.border = "1px solid #c23616";
+            document.getElementById("cbo-categorias").focus();
+            if (document.getElementById("error-categorias") === null)
+                document.getElementById("cbo-categorias").insertAdjacentHTML(
+                    "afterend", "<p style='color:#c23616; margin: 0; font-size: 13px' id='error-categorias'>Selecciona al menos una categoría para este artículo.</p>"
+                );
+            else {
+                document.getElementById("error-categorias").remove();
+                document.getElementById("cbo-categorias").insertAdjacentHTML(
+                    "afterend", "<p style='color:#c23616; margin: 0; font-size: 13px'id='error-categorias'>Selecciona al menos una categoría para este artículo.</p>"
+                );
+            }
 
-    } else {
-        error = false;
-        document.getElementById("cbo-categorias").style.border = "1px solid rgba(0, 0, 0, 0.5)";
-        (document.getElementById("error-categorias") === null)
-            ? null
-            : document.getElementById("error-categorias").remove();
+        } else {
+            error = false;
+            document.getElementById("cbo-categorias").style.border = "1px solid rgba(0, 0, 0, 0.5)";
+            (document.getElementById("error-categorias") === null)
+                ? null
+                : document.getElementById("error-categorias").remove();
+        }
     }
 
     // validando las tags del formulario
@@ -182,7 +194,7 @@ const addCategoryTag = (categoryName) => {
 }
 
 // evento para cuando se seleccione una opcion del combobox
-document.getElementById("cbo-categorias").addEventListener("change", e => {
+(document.getElementById("cbo-categorias")) && document.getElementById("cbo-categorias").addEventListener("change", e => {
     console.log(document.getElementById("cbo-categorias").value);
     addCategoryTag(document.getElementById("cbo-categorias").value);
     getDeletedCategories(document.getElementById("cbo-categorias").value);
@@ -231,23 +243,25 @@ const cleanForm = () => {
     document.getElementById("cbx-publicar").checked = false;
 };
 
-const irMenu = () => {
-    cleanForm();
-    // document.getElementById("menu").click();
-    swal.fire({
-        title: "Confirmación",
-        text: `Serás redireccionado al menú de artículos`,
-        icon: "info",
-        showCancelButton: true,
-        confirmButtonColor: "#27ae60",
-        cancelButtonColor: "#a0a0a0",
-        confirmButtonText: "Sí, quiero ir",
-        cancelButtonText: "Cancelar",
-    }).then(result => {
-        if (result.isConfirmed) {
-            location.replace("./?mod=adminarticulos");
-        }
-    });
+const irMenu = (preguntar = true) => {
+    if (preguntar) {
+        cleanForm();
+        // document.getElementById("menu").click();
+        swal.fire({
+            title: "Confirmación",
+            text: `Serás redireccionado al menú de artículos`,
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#27ae60",
+            cancelButtonColor: "#a0a0a0",
+            confirmButtonText: "Sí, quiero ir",
+            cancelButtonText: "Cancelar",
+        }).then(result => {
+            if (result.isConfirmed) {
+                location.replace("./?mod=adminarticulos");
+            }
+        });
+    } else location.replace("./?mod=adminarticulos");
 }
 
 // enviando datos al endpoint del webservice
@@ -315,65 +329,70 @@ const submitData = () => {
 
 // edicion del articulo
 const editArticulo = () => {
-    validarFormulario();
+    validarFormulario(false);
     if (!error) {
         console.log("Información del editor: ", editor.getData());
         console.log(getCategorias());
         console.log(document.getElementById("cbx-publicar").checked);
         console.log("Data a enviarse: ", {
-            operacion: "crear",
+            operacion: "editar",
             titulo: document.getElementById("txt-titulo-articulo").value,
-            contenido: editor.getData(),
+            contenido: (editor.getData().trim() === "")
+                ? document.getElementById("contenido-articulo").innerHTML
+                : editor.getData(),
             estado: (document.getElementById("cbx-publicar").checked) ? 1 : 0,
             idusuario: document.getElementById("txt-idusuario").innerText,
             tags: document.getElementById("txt-tags").value,
-            categorias: getCategorias(),
-            categoriaseliminadas: getDeletedCategories()
+            idarticulo: parseInt(document.getElementById("article-title").dataset.idarticulo)
         });
-        // swal.fire({
-        //     title: "Confirmación",
-        //     text: `Se creará el articulo: ${document.getElementById("txt-titulo-articulo").value}, ¿estás seguro?`,
-        //     icon: "info",
-        //     showCancelButton: true,
-        //     confirmButtonColor: "#27ae60",
-        //     cancelButtonColor: "#a0a0a0",
-        //     confirmButtonText: "Sí, crealo",
-        //     cancelButtonText: "Cancelar",
-        // }).then(result => {
-        //     if (result.isConfirmed) {
-        //         swal.fire({
-        //             text: "Enviando datos",
-        //             allowOutsideClick: false,
-        //         });
-        //         swal.showLoading();
-        //         $.ajax({
-        //             url: `./webservices/?accion=adminarticulo`,
-        //             method: 'POST',
-        //             data: {
-        //                 operacion: "editar",
-        //                 titulo: document.getElementById("txt-titulo-articulo").value,
-        //                 contenido: editor.getData(),
-        //                 estado: (document.getElementById("cbx-publicar").checked) ? 1 : 0,
-        //                 idusuario: document.getElementById("txt-idusuario").innerText,
-        //                 tags: document.getElementById("txt-tags").value,
-        //                 categorias: getCategorias(),
-        //             }
-        //         }).done((response) => {
-        //             if (response.type == "success") {
-        //                 console.log("respuesta: ", response);
-        //                 swal.fire(response).then(() => {
-        //                     irMenu();
-        //                 });
-        //             } else {
-        //                 swal.fire(response);
-        //                 console.log("respuesta error", response);
-        //             }
-        //         });
-        //     }
-        // }).catch(respuesta => {
-        //     console.log("respuesta de error", respuesta);
-        //     swal.fire(respuesta);
-        // });
+        swal.fire({
+            title: "Confirmación",
+            text: `Se editará el articulo: ${document.getElementById("txt-titulo-articulo").value}, ¿ok?`,
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#27ae60",
+            cancelButtonColor: "#a0a0a0",
+            confirmButtonText: "Sí, editar",
+            cancelButtonText: "Cancelar",
+        }).then(result => {
+            if (result.isConfirmed) {
+                swal.fire({
+                    text: "Enviando datos",
+                    allowOutsideClick: false,
+                });
+                swal.showLoading();
+                $.ajax({
+                    url: `./webservices/?accion=adminarticulo`,
+                    method: 'POST',
+                    data: {
+                        operacion: "editar",
+                        titulo: document.getElementById("txt-titulo-articulo").value,
+                        contenido: (editor.getData().trim() === "")
+                            ? document.getElementById("contenido-articulo").innerHTML
+                            : document.getElementById("cbx-cargar-contenido").checked
+                                ? editor.getData()
+                                : document.getElementById("contenido-articulo").innerHTML,
+                        estado: (document.getElementById("cbx-publicar").checked) ? 1 : 0,
+                        idusuario: document.getElementById("txt-idusuario").innerText,
+                        tags: document.getElementById("txt-tags").value,
+                        idarticulo: parseInt(document.getElementById("article-title").dataset.idarticulo),
+                    }
+                }).done((response) => {
+                    if (response.type == "success") {
+                        console.log("respuesta: ", response);
+                        swal.fire(response).then(() => {
+                            irMenu(false);
+                        });
+                    } else {
+                        swal.fire(response);
+                        console.log("respuesta error", response);
+                    }
+                });
+            }
+        }).catch(respuesta => {
+            console.log("respuesta de error", respuesta);
+            swal.fire(respuesta);
+        });
     }
 };
 

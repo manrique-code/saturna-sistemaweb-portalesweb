@@ -21,7 +21,7 @@
                 } else {
                     echo "$urlSite/uploads/imagenes_usuarios/defaultimage.png";
                 }
-            ?> alt="foto-perfil" id="img-perfil">
+            ?> alt="foto-perfil">
         <p id="txt-idusuario"><?php echo $currentUserId?></p>
     </div>
     <form action="" class="frm-articulo">

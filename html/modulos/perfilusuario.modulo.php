@@ -32,7 +32,7 @@
                 } else {
                     echo "$urlSite/uploads/imagenes_usuarios/defaultimage.png";
                 }
-            ?> alt="" id="img-perfil">
+            ?> alt="Foto de perfil">
         </div>
         <input type="file" name="" id="input" accept="image/png, image/jpeg, image/jpg" style="display: none">
     </div>

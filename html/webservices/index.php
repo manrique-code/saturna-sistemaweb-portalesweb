@@ -11,7 +11,7 @@
     $title = "Error!";
     $datareturn = [];
     $dataonly = false;
-    $accion = isset($_GET["mod"]) ? $_GET["mod"] : false;
+    $accion = isset($_GET["accion"]) ? $_GET["accion"] : false;
     $variablesPOST = $_POST;
     $mysqli = new mysqli($mysql_svr, $mysql_usr, $mysql_psw, $mysql_db);
     if ($mysqli->connect_errno) {

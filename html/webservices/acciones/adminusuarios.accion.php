@@ -14,20 +14,50 @@
                         essuperadmin
                         estado (0: inactivo, otro valor: activo)
                 */
-                if(isset($post_idusuario, $post_nombre, $post_email, $post_fechanacimiento, $post_password, $post_celular, $post_essuperadmin, $post_estado)){
-                    if(!empty($post_idusuario) && !empty($post_nombre) && filter_var($post_email, FILTER_VALIDATE_EMAIL) && strlen($post_password)==128 && !empty($post_celular)){
+                if(isset(
+                    $post_idusuario,
+                    $post_nombre,
+                    $post_email,
+                    $post_fechanacimiento,
+                    $post_password,
+                    $post_celular,
+                    $post_essuperadmin,
+                    $post_estado
+                    )){
+                    if (
+                        !empty($post_idusuario)
+                        && !empty($post_nombre)
+                        && filter_var($post_email, FILTER_VALIDATE_EMAIL) 
+                        && strlen($post_password)==128 
+                        && !empty($post_celular)
+                    ) {
                         try {
                             $post_fechanacimiento = new DateTime($post_fechanacimiento);
                             $post_fechanacimiento = $post_fechanacimiento->format("Y-m-d");
-
                             $llave = hash("sha512",rand());
                             $post_password = hash("sha512",$post_password . $llave);
-
-                            $strsql = "INSERT INTO usuarios(idusuario, nombre, email, fecha_nacimiento
-                                                            , llave, password, celular
-                                                            , superadministrador, activo)
-                                        VALUES(?,?,?,?,?,?,?,?,?)";
-                            
+                            $strsql = "
+                            INSERT INTO usuarios(
+                                idusuario,
+                                nombre,
+                                email, 
+                                fecha_nacimiento, 
+                                llave, 
+                                password, 
+                                celular, 
+                                superadministrador, 
+                                activo
+                            ) VALUES(
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?
+                            )";                            
                             $parametros = [
                                 $post_idusuario, 
                                 $post_nombre, 
@@ -51,6 +81,11 @@
                             }
                             else{
                                 $text = "Ocurrio un error al crear el usuario: " . $queryData["error"];
+                                $type = "error";
+                                $title = "Exito";
+                                unset($parametros[4]);
+                                unset($parametros[5]);
+                                $datareturn = $parametros;
                             }
                         }
                          catch (Exception $e) {
@@ -66,7 +101,14 @@
                 }
             break;
             case "editarPerfilUsuario": 
-                if(isset($post_idusuario, $post_nombre, $post_email, $post_fechanacimiento, $post_password, $post_celular)){
+                if (isset(
+                        $post_idusuario,
+                        $post_nombre,
+                        $post_email,
+                        $post_fechanacimiento,
+                        $post_password,
+                        $post_celular
+                    )) {
                     if(empty($post_password)) {
                         $strsql = "
                             UPDATE usuarios
@@ -75,7 +117,6 @@
                                 fecha_nacimiento = ?,
                                 celular = ?,
                             WHERE idusuario = ?
-
                         ";
 
                         $parametros = [
@@ -86,14 +127,22 @@
                             $post_idusuario
                         ];
 
-                        $text = "Datos ingresados de manera correcta";
-                        $type = "success";
-                        $title = "Exito";
-                        unset($parametros[4]);
-                        unset($parametros[5]);
-                        $datareturn = $parametros;
+                       $queryData = $f->getQueryData($strsql, $parametros);
+                       if (!$queryData["error"]) {
+                            $text = "Datos ingresados de manera correcta";
+                            $type = "success";
+                            $title = "Éxito";
+                            $datareturn = $parametros;
+                       } else {
+                            $text = "Ha ocurrido un error al ingresar el usuario. Por favor intentalo más tarde.";
+                            $type = "error";
+                            $title = "Error";
+                            $datareturn = [$queryData["error"]];     
+                       }
                     } else {
-                        
+                        $text = "No se pasó la contraseña.";
+                        $type = "error";
+                        $title = "Error";
                     }
                 }
                 else{

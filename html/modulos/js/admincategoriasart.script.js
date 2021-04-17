@@ -48,10 +48,8 @@ document.getElementById("crearCategoriaInput").addEventListener("keyup", (event)
             }
         }).done(response => {
             if (response.type === "success") {
-                console.log("respuesta", response);
                 document.getElementById("errorCrearCategoriaInput").innerText = response.text;
             } else {
-                console.log("respuesta", response);
                 document.getElementById("errorCrearCategoriaInput").innerText = response.text;
                 document.getElementById("btnCrearCategoria").style = "display: none";
             }
@@ -75,10 +73,8 @@ document.addEventListener("click", event => {
                     }
                 }).done(response => {
                     if (response.type === "success") {
-                        console.log("respuesta", response);
                         document.getElementById(`mensajeCategoriaEdicion${[...event.target.id].splice(-1)}`).innerText = response.text;
                     } else {
-                        console.log("respuesta", response);
                         document.getElementById(`mensajeCategoriaEdicion${[...event.target.id].splice(-1)}`).innerText = response.text;
                         document.getElementById("btnGuardarEdicionCategoria").style = "display: none";
                     }
@@ -98,12 +94,6 @@ const crearCategoria = () => {
         }
     }).done(response => {
         if (response.type === "success") {
-            console.log("success: ", response);
-            console.log("item: ", getItemCategoria(
-                response.datareturn[1],
-                document.getElementById("crearCategoriaInput").value,
-                document.getElementById(`categoria-${response.datareturn[1] - 1}`).innerText
-            ));
             document.getElementById("categorias").appendChild(getItemCategoria(
                 response.datareturn[1],
                 document.getElementById("crearCategoriaInput").value,
@@ -124,10 +114,7 @@ const editarCategoria = (idcategoria) => {
         }
     }).done(response => {
         if (response.type == "success") {
-            console.log("response: ", response);
             document.getElementById(`mensajeCategoriaEdicion${idcategoria}`).innerText = "";
-        } else {
-            console.log("bad response: ", response);
         }
     })
 };
@@ -152,12 +139,6 @@ const eliminarCategoria = (idcategoria) => {
                 data: {
                     operacion: "eliminar",
                     idcategoria,
-                }
-            }).done(response => {
-                if (response.type == "success") {
-                    console.log("response: ", response);
-                } else {
-                    console.log("bad response: ", response);
                 }
             })
         }

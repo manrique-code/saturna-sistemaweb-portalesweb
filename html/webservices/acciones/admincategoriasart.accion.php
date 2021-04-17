@@ -14,7 +14,7 @@ if (isset($post_operacion)) {
                 $categoryExist = $f->getQueryData($queryCategoryExist, [$post_categoria]);
                 if (!$categoryExist["data"][0]["existeCategoria"]) {
                     $text = "La categoría es correcta";
-                    $type = "succes";
+                    $type = "success";
                     $title = "Error";
                     $datareturn = [true, $post_categoria];
                 } else {
@@ -33,15 +33,17 @@ if (isset($post_operacion)) {
                 $parameters = [$post_categoria];
                 $queryData = $f->exeQuery($queryCreateCategory, $parameters);
                 if (!$queryData["error"]) {
+                    $queryGetUltimoId = "SELECT max(idcategoria) as ultimoId FROM mod_articulos_categorias;";
+                    $ultimoId = $f->getQueryData($queryGetUltimoId, []);
                     $text = "Categoría creada con éxito.";
-                    $type = "succes";
+                    $type = "success";
                     $title = "Éxito";
-                    $datareturn = $parameters;    
+                    $datareturn = [$post_categoria, $ultimoId["data"][0]["ultimoId"]];    
                 } else {
-                    $text = "Categoría creada con éxito.";
-                    $type = "succes";
+                    $text = "Ha ocurrido un error al crearse la categoría.";
+                    $type = "error";
                     $title = "Éxito";
-                    $datareturn = $parameters;
+                    $datareturn = [$queryData["error"]];
                 }
             } else {
                 $text = "Ups! Que no se te olvide ingresar una categoría.";
@@ -120,7 +122,7 @@ if (isset($post_operacion)) {
                 $text = "Ups! Que no se te olvide elegir tu categoría a eliminar.";
                 $type = "error";
                 $title = "Error";
-                $datareturn = [];
+                $datareturn = [$post_idcategoria];
             }
             break;
         default:

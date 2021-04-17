@@ -106,32 +106,12 @@
                     $existeArticulo = $f->getQueryData($queryExisteArticulo, [$post_idarticulo]);
 
                     if ($existeArticulo["data"][0]["existeArticulo"]) {
-
                         $strSql = "";
                         $parametros = null;
-                        if (trim($post_contenido) === "") {
-                            $strSql = "
-                                UPDATE mod_articulos
-                                SET titulo = ?,
-                                    fecha = now(),
-                                    estado = ?,
-                                    idusuario = ?,
-                                    tags = ?
-                                WHERE idarticulo = ?
-                            "; 
-                            $parametros = [
-                                $post_titulo,
-                                $post_estado,
-                                $post_idusuario,
-                                $post_tags,
-                                $post_idarticulo
-                            ];
-                        } else {
                             $strSql = "
                                 UPDATE mod_articulos
                                 SET titulo = ?,
                                     contenido = ?,
-                                    fecha = now(),
                                     estado = ?,
                                     idusuario = ?,
                                     tags = ?
@@ -145,7 +125,7 @@
                                 $post_tags,
                                 $post_idarticulo
                             ];
-                        }
+                        
                         // cambiar los datos del articulo 
                         $queryData = $f->exeQuery($strSql, $parametros);
                         if (!$queryData["error"]) {
@@ -200,6 +180,45 @@
                     }
                 } else {
                     $text = "No envio todos los datos necesarios para crear el articulo. Intentelo de nuevo";
+                }
+                break;
+            case "mostrarocultar": 
+                if (isset($post_idarticulo, $post_estado)) {
+                    $queryExisteArticulo = "select ifnull(count(*), 0) as existeArticulo
+                                            from mod_articulos
+                                            where idarticulo = ?;";
+
+                    $existeArticulo = $f->getQueryData($queryExisteArticulo, [$post_idarticulo]);
+                    if ($existeArticulo) {
+                        $queryMostrarUOcultarArticulo = "
+                            UPDATE mod_articulos
+                            SET estado = ?
+                            WHERE idarticulo = ?;
+                        ";
+                        $parametros = [$post_estado, $post_idarticulo];
+                        $queryData = $f->exeQuery($queryMostrarUOcultarArticulo, $parametros);
+                        if (!$queryData["error"]) {
+                            $text = "Visibilidad del artículo modificado con éxito.";
+                            $type = "success";
+                            $title = "Éxito";
+                            $datareturn = $parametros;
+                        } else {
+                            $text = "No se ha podido modificar la visibilidad del articulo.";
+                            $type = "error";
+                            $title = "Error";
+                            $datareturn = $queryData["error"];
+                        }
+                    } else {
+                        $text = "El artículo que desea modificar la visbilidad no existe";
+                        $type = "error";
+                        $title = "Error";
+                        $datareturn = $post_idarticulo;
+                    }
+                } else {
+                    $text = "No envio todos los datos necesarios para crear el articulo. Intentelo de nuevo";
+                    $type = "error";
+                    $title = "Error";
+                    $datareturn = $post_idarticulo;
                 }
                 break;
             default:

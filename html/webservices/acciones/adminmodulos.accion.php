@@ -55,7 +55,8 @@ if (isset($post_operacion)) {
                 $post_idmodulo,
                 $post_modulo,
                 $post_tipo,
-                $post_mostrartitulo
+                $post_mostrartitulo,
+                $post_includejavascript
             )) {
                 try {
                     $queryCrearModulo = "
@@ -74,28 +75,43 @@ if (isset($post_operacion)) {
                     ];
                     $queryData = $f->exeQuery($queryCrearModulo, $parametros);
                     if (!$queryData["error"]) {
-                        $text = "El módulo ha sido creado correctamente.";
-                        $type = "success";
-                        $title = "Ok";
+                        $contenidoPHP  = "<?php ?>";
+                        $contenidoHTML = '<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    
+</body>
+</html>';
+                        $script = "/home/administrador/www/html/modulos/js/$post_idmodulo.script.js";
+                        if ($post_includejavascript) file_put_contents($script, "");
                         // ya que el modulo se creó en la base de datos procedemos a crear los archivos correspondientes de estos módulos
                         // ingeniero si lee esta línea de código, yo tomé en consideración que los módulos 1 son PHP y que los módulos de tipo 0 son contenido estático HTML
                         switch ($post_tipo) {
                             case 0:
                                 // si es contenido estático
                                 $modulo = "/home/administrador/www/html/modulos/$post_idmodulo.modulo.html";
-                                file_put_contents($modulo, "");
+                                file_put_contents($modulo, $contenidoHTML);
                                 break;
                             case 1:
                                 // si es php
                                 $modulo = "/home/administrador/www/html/modulos/$post_idmodulo.modulo.php";
                                 $accion = "/home/administrador/www/html/webservices/acciones/$post_idmodulo.accion.php";
-                                file_put_contents($modulo, "");
-                                file_put_contents($accion, "");
+                                file_put_contents($modulo, $contenidoPHP);
+                                file_put_contents($accion, $contenidoPHP);
                                 break;
                             default:
                                 $text = "Tipo de módulo incorrecto, este debe ser tipo 1 o 0";
                                 break;
                         }
+                        $text = "El módulo ha sido creado correctamente.";
+                        $type = "success";
+                        $title = "Ok";
                     } else {
                         $text = "Ha ocurrido un error al intentar crear el módulo $post_modulo. Por favor intenta de nuevo más tarde";
                         $type = "error";
@@ -176,15 +192,15 @@ if (isset($post_operacion)) {
                             if (!$queryData["error"]) {
                                 if (trim($post_contenidomodulo)) {
                                     $urlArchivoModulo = (intval($post_tipo)) ? "$rootPathServer/modulos/$post_idmodulo.modulo.php" : "$rootPathServer/modulos/$post_idmodulo.modulo.html";
-                                    file_put_contents($urlArchivoModulo, $post_contenidomodulo);
+                                    if (file_exists($urlArchivoModulo)) file_put_contents($urlArchivoModulo, $post_contenidomodulo);
                                 } 
                                 if (trim($post_contenidoaccion)) {
                                     $urlArchivoAccion = "$rootPathServer/webservices/acciones/$post_idmodulo.accion.php";
-                                    file_put_contents($urlArchivoAccion, $post_contenidoaccion);
+                                    if (file_exists($urlArchivoAccion)) file_put_contents($urlArchivoAccion, $post_contenidoaccion);
                                 }
                                 if (trim($post_contenidojavascript)) {
                                     $urlArchivoScript = "$rootPathServer/modulos/js/$post_idmodulo.script.js";
-                                    file_put_contents($urlArchivoScript, $post_contenidojavascript);
+                                    if (file_exists($urlArchivoScript)) file_put_contents($urlArchivoScript, $post_contenidojavascript);
                                 }
                                 $text = "Modulo editado correctamente.";
                                 $type = "success";

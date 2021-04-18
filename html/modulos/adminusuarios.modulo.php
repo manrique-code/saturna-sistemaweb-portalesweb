@@ -1,6 +1,10 @@
 <?php
     global $f;
     global $urlRecursos;
+    global $urlSite;
+
+    if ($currentDataUser = $f->usuarioConectado()) {
+        if ($f->esAdmin()) {
 ?>
 <a href="#mdl-usuario" class="btn green modal-trigger">Agregar Usuario</a>
 <table>
@@ -114,8 +118,7 @@
                 Si
                 </label>
             </div>
-        </div>
-        
+        </div>        
 
     </form>
     </div>
@@ -124,4 +127,24 @@
         <a href="#!" class="modal-close waves-effect btn red">Cancelar</a>
     </div>
 </div>
+<script src="<?php echo $urlRecursos."/js/jquery.min.js" ?>"></script>
+<script src="<?php echo $urlRecursos."/js/materialize.min.js" ?>"></script>
 <script src="<?php echo $urlRecursos."/js/sweetalert2.min.js" ?>"></script>
+<?php
+        } else {
+?>
+    <div class="errorAdministrador">
+        <img src=<?php echo "$urlRecursos/img/errores/administrator2.png"?> style="heigth: 200px; width: 200px"alt="">
+        <h2>¿Qué hacés aquí?, tu usuario no tiene los permisos de superadministrador para realizar esta accion</h2>
+    </div>
+<?php
+        }
+    } else {
+?>
+    <div class="errorAdministrador">
+        <img src=<?php echo "$urlRecursos/img/errores/administrator2.png"?> style="heigth: 200px; width: 200px"alt="">
+        <h2>Inicia sesión para poder disfrutar el contenido de Saturna</h2>
+    </div>
+<?php
+    }
+?>

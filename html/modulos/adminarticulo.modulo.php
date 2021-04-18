@@ -78,7 +78,7 @@
             <label for="cbx-publicar">Sí, quiero publicar este artículo en el inicio del blog.</label>
         </fieldset>
     </form>
-    <a class="btn-cancelar" href="#">Cancelar</a>
+    <a class="btn-cancelar" href=<?php echo "$urlSite/?mod=adminarticulos"?>>Cancelar</a>
     <a href="javascript:submitData()" class="btn-guardar">Guardar</a>
     <!-- <button onclick=<?php header("location: ./modulos/adminarticulos.modulo.php")?> id="menu">click</button> -->
 <?php
@@ -196,7 +196,7 @@
             <label for="cbx-publicar">Sí, quiero publicar este artículo en el inicio del blog.</label>
         </fieldset>
     </form>
-    <a class="btn-cancelar" href="#">Cancelar</a>
+    <a class="btn-cancelar" href=<?php echo "$urlSite/?mod=adminarticulos"?>>Cancelar</a>
     <a href="javascript:editArticulo()" class="btn-guardar">Guardar cambios</a>
 <?php
                     }

@@ -48,7 +48,7 @@
                     </div>
                     <div class="btn-acciones-modulo">
                         <p>Editar</p>
-                        <a href=<?php echo "javascript:editarModulo($idmodulo)" ?>>
+                        <a href=<?php echo "$urlSite/?mod=adminmodulo&accion=editar&idmodulo=$idmodulo"; ?>>
                             <i class="fas fa-pencil-alt"></i>
                         </a>
                     </div>

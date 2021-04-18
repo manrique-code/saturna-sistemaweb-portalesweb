@@ -95,54 +95,52 @@
                     $post_contenido,
                     $post_estado,
                     $post_idusuario,
-                    $post_tags,
-                    $post_categorias,
-                    $post_categorias_eliminadas
+                    $post_tags
                 )) {
-                    $strSql = "";
-                    $parametros = null;
-                    if (trim($post_contenido) === "") {
-                        $strSql = "
-                            UPDATE mod_articulos
-                            SET titulo = ?,
-                                fecha = now(),
-                                estado = ?,
-                                idusuario = ?,
-                                tags = ?
-                            WHERE idarticulo = ?
-                        "; 
-                        $parametros = [
-                            $post_titulo,
-                            $post_estado,
-                            $post_idusuario,
-                            $post_tags,
-                        ]
+
+                    // Verificamos que el artículo existe
+                    $queryExisteArticulo = "select ifnull(count(*), 0) as existeArticulo
+                                            from mod_articulos
+                                            where idarticulo = ?;";
+
+                    $existeArticulo = $f->getQueryData($queryExisteArticulo, [$post_idarticulo]);
+
+                    if ($existeArticulo["data"][0]["existeArticulo"]) {
+                        $strSql = "";
+                        $parametros = null;
+                            $strSql = "
+                                UPDATE mod_articulos
+                                SET titulo = ?,
+                                    contenido = ?,
+                                    estado = ?,
+                                    idusuario = ?,
+                                    tags = ?
+                                WHERE idarticulo = ?
+                            "; 
+                            $parametros = [
+                                $post_titulo,
+                                $post_contenido,
+                                $post_estado,
+                                $post_idusuario,
+                                $post_tags,
+                                $post_idarticulo
+                            ];
+                        
+                        // cambiar los datos del articulo 
+                        $queryData = $f->exeQuery($strSql, $parametros);
+                        if (!$queryData["error"]) {
+                            $text = "Artículo editado con éxito.";
+                            $type = "success";
+                            $title = "Éxito";
+                            $datareturn = $parametros;
+                        }
+
                     } else {
-                        $strSql = "
-                            UPDATE mod_articulos
-                            SET titulo = ?,
-                                contenido = ?,
-                                fecha = now(),
-                                estado = ?,
-                                idusuario = ?,
-                                tags = ?
-                            WHERE idarticulo = ?
-                        "; 
-                        $parametros = [
-                            $post_titulo,
-                            $post_contenido,
-                            $post_estado,
-                            $post_idusuario,
-                            $post_tags,
-                        ]
-                    }
-
-                    // cambiar los datos del articulo 
-                    $queryData = $f->getQueryData();
-                    if (!$queryData["error"]) {
-                        // cambiar las referencias de categorias pertenecientes al articulo
-
-                    }
+                        $text = "Al parecer el artículo que desea editar no existe. Intenta con otro.";
+                        $type = "error";
+                        $title = "Éxito";
+                        $datareturn = $post_idarticulo;
+                    }                    
 
                 } else {
                     $text = "No envio todos los datos necesarios para crear el articulo. Intentelo de nuevo";
@@ -150,23 +148,77 @@
                 break;
             case "eliminar":
                 if (isset($post_idarticulo)) {
-                    $queryEliminarArticulo = "DELETE FROM mod_articulos WHERE idarticulo = ?";
-                    $parametros = [$post_idarticulo];
-                    $queryData = $f->exeQuery($queryEliminarArticulo, $parametros);
 
-                    if (!$queryData["error"]) {
-                        $text = "Artículo eliminado con éxito.";
-                        $type = "success";
-                        $title = "Éxito";
-                        $datareturn = $parametros;
+                    $queryExisteArticulo = "select ifnull(count(*), 0) as existeArticulo
+                                            from mod_articulos
+                                            where idarticulo = ?;";
+
+                    $existeArticulo = $f->getQueryData($queryExisteArticulo, [$post_idarticulo]);
+
+                    if ($existeArticulo["data"][0]["existeArticulo"]) {
+                        // verificamos si el artículo existe y si es así eliminamos el artículo.
+                        $queryEliminarArticulo = "DELETE FROM mod_articulos WHERE idarticulo = ?";
+                        $parametros = [$post_idarticulo];
+                        $queryData = $f->exeQuery($queryEliminarArticulo, $parametros);
+
+                        if (!$queryData["error"]) {
+                            $text = "Artículo eliminado con éxito.";
+                            $type = "success";
+                            $title = "Éxito";
+                            $datareturn = $parametros;
+                        } else {
+                            $text = "No se ha podido eliminar el artículo: " + $queryData['error'];
+                            $type = "error";
+                            $title = "Éxito";
+                            $datareturn = $parametros;
+                        }
                     } else {
-                        $text = "No se ha podido eliminar el artículo: " + $queryData['error'];
+                        $text = "Al parecer el artículo que desea eliminar no existe. Intenta con otro.";
                         $type = "error";
-                        $title = "Éxito";
-                        $datareturn = $parametros;
+                        $title = "Error";
+                        $datareturn = $post_idarticulo;
                     }
                 } else {
                     $text = "No envio todos los datos necesarios para crear el articulo. Intentelo de nuevo";
+                }
+                break;
+            case "mostrarocultar": 
+                if (isset($post_idarticulo, $post_estado)) {
+                    $queryExisteArticulo = "select ifnull(count(*), 0) as existeArticulo
+                                            from mod_articulos
+                                            where idarticulo = ?;";
+
+                    $existeArticulo = $f->getQueryData($queryExisteArticulo, [$post_idarticulo]);
+                    if ($existeArticulo) {
+                        $queryMostrarUOcultarArticulo = "
+                            UPDATE mod_articulos
+                            SET estado = ?
+                            WHERE idarticulo = ?;
+                        ";
+                        $parametros = [$post_estado, $post_idarticulo];
+                        $queryData = $f->exeQuery($queryMostrarUOcultarArticulo, $parametros);
+                        if (!$queryData["error"]) {
+                            $text = "Visibilidad del artículo modificado con éxito.";
+                            $type = "success";
+                            $title = "Éxito";
+                            $datareturn = $parametros;
+                        } else {
+                            $text = "No se ha podido modificar la visibilidad del articulo.";
+                            $type = "error";
+                            $title = "Error";
+                            $datareturn = $queryData["error"];
+                        }
+                    } else {
+                        $text = "El artículo que desea modificar la visbilidad no existe";
+                        $type = "error";
+                        $title = "Error";
+                        $datareturn = $post_idarticulo;
+                    }
+                } else {
+                    $text = "No envio todos los datos necesarios para crear el articulo. Intentelo de nuevo";
+                    $type = "error";
+                    $title = "Error";
+                    $datareturn = $post_idarticulo;
                 }
                 break;
             default:
@@ -184,10 +236,5 @@
         $corchetes = ["[", "]", " ", "\""];
         $x = str_replace($corchetes, "", $c);
         return $x;
-    }
-
-    // algoritmo para saber cual categoria fue eliminada 
-    function getEliminatedCategory($idArticulo, ) {
-
     }
 ?>

@@ -28,8 +28,8 @@
             $modError = false;            
             if (!$articuloData["error"]) {
                 foreach ($articuloData["data"] as $articulo) {
-                    $visible = '<a class="btn-accion-table" href="javascript:mostrarArticulo('.$articulo["idarticulo"].')"><i class="far fa-eye"></i></a>';
-                    $noVisible = '<a class="btn-accion-table" href="javascript:ocultarArticulo('.$articulo["idarticulo"].')"><i class="far fa-eye-slash"></i></a>';
+                    $visible = '<a class="btn-accion-table" href="javascript:ocultarArticulo('.$articulo["idarticulo"].', 0)"><i class="far fa-eye"></i></a>';
+                    $noVisible = '<a class="btn-accion-table" href="javascript:ocultarArticulo('.$articulo["idarticulo"].', 1)"><i class="far fa-eye-slash"></i></a>';
 
                     $iconVisibilidad = $articulo["estado"] ? $visible : $noVisible;
 ?> 
@@ -55,7 +55,7 @@
             // ($intervaloMinutos > 60) ? ($intervaloHoras > 24)  ? ($intervaloDias > 31) ? "Hace $intervaloMeses meses" : "Hace $intervaloDias días" : "Hace $intervaloHoras horas" : "Hace $intervaloMinutos minutos";
         ?></td>
         <td class="center"><?php echo $articulo["idusuario"]?></td>
-        <td class="center"><?php echo $iconVisibilidad?></td>
+        <td class="center" id=<?php echo 'visibilidad-'.$articulo["idarticulo"]?>><?php echo $iconVisibilidad?></td>
         <td class="center">
             <a class="btn-accion-table" href=<?php echo "$urlSite/?mod=adminarticulo&accion=editar&articulo=".$articulo["idarticulo"]?>><i class="fas fa-pencil-alt"></i></a>
         </td>

@@ -21,7 +21,7 @@
                 } else {
                     echo "$urlSite/uploads/imagenes_usuarios/defaultimage.png";
                 }
-            ?> alt="foto-perfil" id="img-perfil">
+            ?> alt="foto-perfil">
         <p id="txt-idusuario"><?php echo $currentUserId?></p>
     </div>
     <form action="" class="frm-articulo">
@@ -78,7 +78,7 @@
             <label for="cbx-publicar">Sí, quiero publicar este artículo en el inicio del blog.</label>
         </fieldset>
     </form>
-    <a class="btn-cancelar" href="#">Cancelar</a>
+    <a class="btn-cancelar" href=<?php echo "$urlSite/?mod=adminarticulos"?>>Cancelar</a>
     <a href="javascript:submitData()" class="btn-guardar">Guardar</a>
     <!-- <button onclick=<?php header("location: ./modulos/adminarticulos.modulo.php")?> id="menu">click</button> -->
 <?php
@@ -94,7 +94,7 @@
                     if (!$getEditArticuloData["error"]) {
 ?>
 <!-- accion de editar el articulo -->
-    <h2 id="article-title">Editar artículo</h2>
+    <h2 id="article-title" data-idarticulo=<?php echo $currentEditArticleId?>>Editar artículo</h2>
     <div class="usuario-conectado">
         <img src=<?php 
                 if (file_exists("$serverPath/uploads/imagenes_usuarios/$currentUserId.png")) {
@@ -110,13 +110,11 @@
             <label for="txt-editar-articulo">Título del artículo</label>
             <input type="text" name="" id="txt-titulo-articulo" value=<?php echo $getEditArticuloData["data"][0]["titulo"]?>>
         </fieldset>
-        <fieldset>
+        <!-- <fieldset>
             <label for="">Categorías</label>
 
-            <!-- 
                 calculando la cantidad de categorias
                 dependiendo de la cantidad de elementos se mostrará un elemento optimizado para cada uno
-            -->
             <?php
                 $strSql = "SELECT COUNT(*) as cantidadCategorias FROM mod_articulos_categorias";
                 $queryData = $f->getQueryData($strSql, []);
@@ -153,7 +151,7 @@
             <?php 
                 }
             ?>
-        </fieldset>
+        </fieldset> -->
         <div id="tag-categorias">
             <!-- <p>#Hola</p> -->
             <?php 
@@ -169,7 +167,7 @@
                 if (!$getQueryCategoriasArticulo["error"]) {
                     foreach ($getQueryCategoriasArticulo["data"] as $categorias) {
 ?>
-                        <p data-nombrecategoria=<?php echo $categorias["categoria"]?> id="tag"><?php echo "#".$categorias["categoria"]?></p>
+                        <!-- <p data-nombrecategoria=<?php echo $categorias["categoria"]?> id="tag"><?php echo "#".$categorias["categoria"]?></p> -->
 <?php
                     }
                 }
@@ -179,14 +177,26 @@
             <label for="txt-tags">Etiquetas (para optimizar la busqueda en los metabuscadores)</label>
             <input type="text" id="txt-tags" placeholder="tecnologia, php, javascript" value=<?php echo "\"".$getEditArticuloData["data"][0]["tags"]."\""?>>
         </fieldset>
-        <label for="editor">Contenido del artículo</label>
+        <input type="checkbox" name="" id="cbx-cargar-contenido">
+        <label for="editor">Editar contenido del articulo</label>
+        <script type="text/html" id="contenido-articulo"><?php 
+                // seleccionando la data del contenido
+                $querySeleccionarContenidoArticulo = "
+                    SELECT contenido
+                    FROM mod_articulos
+                    where idarticulo = ?
+                ";
+                $parameters = [$currentEditArticleId];
+                $contenidoArticulo = $f->getQueryData($querySeleccionarContenidoArticulo, $parameters);
+                echo strval($contenidoArticulo["data"][0]["contenido"]);
+            ?></script>
         <div id="editor"></div>
         <fieldset id="publicar-checkbox">
             <input type="checkbox" name="" id="cbx-publicar" <?php echo ($getEditArticuloData["data"][0]["estado"]) ? "checked": ""?>>
             <label for="cbx-publicar">Sí, quiero publicar este artículo en el inicio del blog.</label>
         </fieldset>
     </form>
-    <a class="btn-cancelar" href="#">Cancelar</a>
+    <a class="btn-cancelar" href=<?php echo "$urlSite/?mod=adminarticulos"?>>Cancelar</a>
     <a href="javascript:editArticulo()" class="btn-guardar">Guardar cambios</a>
 <?php
                     }

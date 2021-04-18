@@ -39,11 +39,6 @@
         $mysqli->close();
     }
     
-
-
-    
-
-
     $retorno = [
         "type"=>$type,
         "icon"=>$type,

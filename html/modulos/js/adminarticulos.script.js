@@ -26,3 +26,30 @@ const eliminarArticulo = (idArticulo) => {
         }
     });
 };
+
+const ocultarArticulo = (idArticulo, estado) => {
+    // document.getElementById(`visibilidad-${idArticulo}`).innerHTML = "";
+    console.log("data a enviarse: ", {
+        operacion: "mostrarocultar",
+        idarticulo: idArticulo,
+        estate: (estado)
+            ? `<a class="btn-accion-table" href="javascript:ocultarArticulo(${idArticulo}, 0)"><i class="far fa-eye"></i></a>`
+            : `<a class="btn-accion-table" href="javascript:ocultarArticulo(${idArticulo}, 1)"><i class="far fa-eye-slash"></i></a>`
+    });
+    $.ajax({
+        url: "./webservices/?accion=adminarticulo",
+        method: "POST",
+        data: {
+            operacion: "mostrarocultar",
+            idarticulo: idArticulo,
+            estado,
+        }
+    }).done(response => {
+        if (response.type == "success") {
+            console.log(response);
+            document.getElementById(`visibilidad-${idArticulo}`).innerHTML = (estado)
+                ? `<a class="btn-accion-table" href="javascript:ocultarArticulo(${idArticulo}, 0)"><i class="far fa-eye"></i></a>`
+                : `<a class="btn-accion-table" href="javascript:ocultarArticulo(${idArticulo}, 1)"><i class="far fa-eye-slash"></i></a>`
+        } else swal.fire({ response });
+    })
+};

@@ -112,6 +112,13 @@ if (isset($post_operacion)) {
                         $text = "El módulo ha sido creado correctamente.";
                         $type = "success";
                         $title = "Ok";
+                        $datareturn = [
+                            $post_idmodulo,
+                            $post_modulo,
+                            $post_tipo,
+                            $post_mostrartitulo,
+                            $post_includejavascript
+                        ];
                     } else {
                         $text = "Ha ocurrido un error al intentar crear el módulo $post_modulo. Por favor intenta de nuevo más tarde";
                         $type = "error";

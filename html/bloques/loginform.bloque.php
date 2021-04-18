@@ -21,6 +21,7 @@
         <div class="login-input">
             <h2>Bienvenido, <br> <a href="?mod=perfilusuario&idusuario=<?php echo $idusuario?>"><?php echo $nombre?></a></h2>
             <hr class="optionLoginSeparator">
+            <div ><a href="./logout.php" class="buttonOptionsOverlay"> <i class="far fa-user-circle iconOUt"></i>Mi cuenta</a></div>
             <div ><a href="./logout.php" class="buttonLogOutOverlay"> <i class="fas fa-sign-out-alt iconOUt"></i> Cerrar sesión</a></div>
         </div>
         </form>

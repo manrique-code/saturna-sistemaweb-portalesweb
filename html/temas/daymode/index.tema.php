@@ -1,5 +1,6 @@
 <?php
     global $f;
+    $currentUserData = $f->usuarioConectado();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,10 +40,6 @@
 <body>    
     <div class="contenedor">
 
-        <?php 
-            
-        ?>
-
         <!-- barra de navegacion -->
         <header class="header">
             <div class="logo">
@@ -56,7 +53,7 @@
                 <a href="#">About us</a>
                 <div href="#" id="login-usuario"><?php 
                     // mostrar bien la imagen o el texto de login dependiendo si ha iniciado sesión
-                    if ($currentUserData = $f->usuarioConectado()) {
+                    if ($currentUserData) {
                         $currentUserId = $currentUserData["idusuario"];
                         $serverPath = $_SERVER["DOCUMENT_ROOT"];
                         ?>
@@ -67,11 +64,17 @@
                                     echo "$urlSite/uploads/imagenes_usuarios/defaultimage.png";
                                 }
                             ?> alt="" id="img-perfil" title=<?php echo $currentUserId;?>>
-                            <i class="fas fa-cog optionsButton"></i>
 
                         <?php
                     } else { echo "Iniciar sesión";}
                 ?></div>
+                <?php 
+                    if ($f->esAdmin()) {
+                        ?>
+                        <i class="fas fa-cog optionsButton" id="optionsButton" title="Opciones"></i>
+                        <?php
+                    }
+                ?>
                 <!-- <a href=<?php echo "$urlSite/?mod=adminarticulo&accion=crear"?> title="Configuraciones"><i class="fas fa-cog"></i></a> -->
             </nav>
             <div class="icons-nav">
@@ -89,6 +92,41 @@
         <div class="seccion">
             <?php $f->modulo($idmodulo);?>
         </div>
+
+<?php 
+        if ($currentUserData) {
+            if ($f->esAdmin()) {
+?>
+            <div class="optionsSideBar" id="optionsSideBar">
+                <h2 class="optionsHeader">Ajustes de usuario administrador</h2>
+                <hr class="optionLoginSeparator">
+                <h3 class="optionItemHeader">AJUSTES DE USUARIO</h3>
+                <div class="optionItems">
+                    <a href="" class="optionItemButton">Administración de usuarios</a>
+                </div>
+                <hr class="optionLoginSeparator">
+                <h3 class="optionItemHeader">AJUSTES DE MENÚS</h3>
+                <div class="optionItems">
+                    <a href="" class="optionItemButton">Administración de menús</a>
+                </div>
+                <hr class="optionLoginSeparator">
+                <h3 class="optionItemHeader">AJUSTES DE ARTÍCULOS</h3>
+                <div class="optionItems">
+                    <a href=<?php echo "$urlSite/?mod=adminarticulos"?> class="optionItemButton">Administración de artículos</a>
+                    <a href=<?php echo "$urlSite/?mod=adminarticulo&accion=nuevo"?> class="optionItemButton">Crear artículo</a>
+                    <a href=<?php echo "$urlSite/?mod=admincategoriasart"?> class="optionItemButton">Administración de categorías</a>
+                </div>
+                <hr class="optionLoginSeparator">
+                <h3 class="optionItemHeader">AJUSTES DE MÓDULOS</h3>
+                <div class="optionItems">
+                    <a href=<?php echo "$urlSite/?mod=adminmodulos"?> class="optionItemButton">Administración de módulos</a>
+                    <a href=<?php echo "$urlSite/?mod=adminmodulo&accion=nuevo"?> class="optionItemButton">Crear módulo</a>
+                </div>
+            </div>
+<?php
+             }
+        } 
+?>
         
 
         <footer>

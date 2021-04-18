@@ -32,10 +32,14 @@ h3 {
   background-color: #c23616 !important;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .contenedor {
   background-color: #fafafa;
   font-family: "Aktiv Grotesk Corp";
-
+  overflow: hidden;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -281,11 +285,69 @@ h3 {
   border-radius: 10px;
 }
 
+.optionsSideBar {
+  width: 350px;
+  position: absolute;
+  right: 0px;
+  top: 80px;
+  background-color: white;
+  box-shadow: 0px 5px 10px -2px rgba(0, 0, 0, 0.5);
+  /* border: #d0d0d0 1px solid; */
+  padding: 45px;
+  box-sizing: border-box;
+  height: calc(100% - 80px);
+  transform: translateX(360px);
+  transition: all cubic-bezier(0.29, 0, 0.28, 1.25) 0.4s;
+}
+
+.optionsSideBar.active {
+  transform: translateX(20px);
+}
+
 .optionsButton {
   margin-left: 10px;
-  color: #d0d0d0;
+  color: #c0c0c0;
   font-size: 25px;
   align-self: center;
+  transition: all ease 0.4s;
+}
+
+.optionsButton:hover {
+  color: #a0a0a0;
+  cursor: pointer;
+}
+
+.optionsHeader {
+  font-size: 24px;
+}
+
+.optionItemHeader {
+  font-size: 13px;
+  color: #d0d0d0;
+  text-align: start;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+.optionItems {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.optionItemButton {
+  color: rgba(47, 54, 64, 0.75);
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 10px;
+  text-decoration: none;
+  padding: 10px;
+  margin: 5px 0px 0px -10px;
+  transition: all ease 0.4s;
+}
+
+.optionItemButton:hover {
+  background-color: rgba(48, 55, 65, 0.2);
+  color: rgba(47, 54, 64, 1);
 }
 
 /* login overlay -------------------------------------------------------------------- */
@@ -1032,6 +1094,7 @@ footer {
   padding: 20px 40px;
   display: flex;
   flex-flow: column nowrap;
+  bottom: 0px;
   justify-content: center;
   background-color: #192a56;
   color: #fff;
@@ -1083,7 +1146,6 @@ footer p.autor {
   .contenedor {
     background-color: #fafafa;
     font-family: "Aktiv Grotesk Corp";
-
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -1093,6 +1155,7 @@ footer p.autor {
 
   .header {
     position: sticky;
+    position: -webkit-sticky;
     top: 0px;
     padding: 25px 50px 15px 50px;
     color: #192a56;

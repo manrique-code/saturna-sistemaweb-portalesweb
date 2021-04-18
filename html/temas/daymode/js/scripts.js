@@ -9,9 +9,20 @@ const whiteLogo = "../img/assets/logo white.png";
 
 let menuAbierto = false;
 let loginAbierto = false;
+let configSideBar = false;
 
 console.log(logo);
 console.log(formLogin);
+
+// mostar el sidebar del menú
+document.getElementById("optionsButton").addEventListener("click", (event) => {
+    configSideBar = !configSideBar;
+    if (configSideBar) {
+        document.getElementById("optionsSideBar").classList.add("active");
+    } else {
+        document.getElementById("optionsSideBar").classList.remove("active");
+    }
+});
 
 // abrir el menu de opciones
 document.getElementById("menu").addEventListener("click", (event) => {

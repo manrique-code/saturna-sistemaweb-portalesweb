@@ -32,6 +32,7 @@
                 $visible = "<a href='javascript:mostrarUOcultar($idmodulo, 0)'><i class='far fa-eye'></i></a>";
                 $noVisible = "<a href='javascript:mostrarUOcultar($idmodulo, 1)'><i class='far fa-eye-slash'></i></a>";
                 $isVisible = ($modulo["mostrartitulo"]) ? $visible : $noVisible ;
+                if ($idmodulo != "adminmodulos" && $idmodulo != "adminmodulo") {
                 $contador++;
 
 ?>
@@ -54,7 +55,7 @@
                     </div>
                     <div class="btn-acciones-modulo">
                         <p>Eliminar</p>
-                        <a href=<?php echo "javascript:eliminarModulo($idmodulo)" ?>>
+                        <a href="<?php echo "javascript:eliminarModulo(".$modulo["tipo"].", '$idmodulo')"; ?>">
                             <i class="far fa-trash-alt"></i>
                         </a>
                     </div>
@@ -63,12 +64,14 @@
         </div>
         <hr>
 <?php
+                }
             }
 ?>
     </div>
     <script src=<?php echo "$urlRecursos/js/ckeditor.js"?>></script>
     <script src="<?php echo $urlRecursos."/js/sweetalert2.min.js" ?>"></script>
     <script src="<?php echo $urlRecursos."/js/jquery.min.js" ?>"></script>
+    <script src="<?php echo "$urlSite/modulos/js/adminmodulos.script.js"?>"></script>
 <?php
         } else {
 ?>

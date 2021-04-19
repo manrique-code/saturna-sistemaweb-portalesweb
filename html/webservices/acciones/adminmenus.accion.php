@@ -10,7 +10,7 @@ if (isset($post_operacion)) {
                     $queryVerifyMenu = "
                         SELECT IFNULL(COUNT(*), 0) as existeMenu
                         FROM menus
-                        WHERE idmenu = ?;
+                        WHERE menu = ?;
                     ";
                     $existeMenu = $f->getQueryData($queryVerifyMenu, [$post_idmenu]);
                     if (!$existeMenu["error"]) {

@@ -165,10 +165,6 @@
             <script src="<?php echo $urlRecursos."/js/jquery.min.js"; ?>"></script>
             <script src=<?php echo "$urlRecursos/js/src-noconflict/ace.js";?> type="text/javascript" charset="utf-8"></script>
             <script src=<?php echo "$urlSite/modulos/js/adminmodulo.script.js"?>></script> 
-            <script type="text/javascript">
-                editorAccion.setValue( ``);
-            </script>
-            
 <?php
         } else {
 ?>

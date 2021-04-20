@@ -16,7 +16,7 @@
             <i class="fas fa-plus"></i>
         </a>
     </div>
-    <hr>
+    <hr class="divider-categorias">
     <!-- <h5>Consideraciones</h5>
     <p>Debe tomar en cuenta que si eliminas una categoría, los artículos pertencientes a esta categoría también se eliminaran. Esto es debido a que no pueden existir <a href="https://es.wikipedia.org/wiki/Integridad_referencial">artículos sin categorías en este blog</a>. Si deseas eliminar una categoría pero no estás seguro contacta con el desarrollador del blog.</p> -->
     <div class="categorias" id="categorias">
@@ -34,12 +34,16 @@
             $contador++;
 ?>
             <div class="categoryItem" id=<?php echo "categoryItem".$categoria["idcategoria"].""?> data-categoria=<?php echo $categoria["idcategoria"] ?>>
-                <h4 id=<?php echo "categoria-".$categoria["idcategoria"] ?>><?php echo $categoria["idcategoria"]?></h4>
-                <input type="text" data-categoria=<?php echo $categoria["idcategoria"]?> id=<?php echo "nombreCategoriaInput".$categoria["idcategoria"].""?> value=<?php echo $categoria["categoria"] ?>>
-                <p id=<?php echo "mensajeCategoriaEdicion".$categoria["idcategoria"].""?>></p>
-                <a href="">Cancelar</a>
-                <a id="btnGuardarEdicionCategoria" href=<?php echo "javascript:editarCategoria(".$categoria["idcategoria"].")"?>>Guardar</a>
-                <a href=<?php echo "javascript:eliminarCategoria(".$categoria["idcategoria"].")" ?>><i class="far fa-trash-alt"></i></a>
+                <h4 id=<?php echo "categoria-".$categoria["idcategoria"] ?> class="n-categoria"><?php echo $categoria["idcategoria"]?></h4>
+                <div class="input-categorias">
+                    <input type="text" data-categoria=<?php echo $categoria["idcategoria"]?> id=<?php echo "nombreCategoriaInput".$categoria["idcategoria"].""?> value=<?php echo $categoria["categoria"] ?>>
+                    <p id=<?php echo "mensajeCategoriaEdicion".$categoria["idcategoria"].""?>></p>
+                    <div class="info-input-categorias">
+                        <a href="">Cancelar</a>
+                        <a id="btnGuardarEdicionCategoria" href=<?php echo "javascript:editarCategoria(".$categoria["idcategoria"].")"?>>Guardar</a>
+                    </div>
+                </div>                
+                <a href=<?php echo "javascript:eliminarCategoria(".$categoria["idcategoria"].")" ?> class="delete-categoria"><i class="far fa-trash-alt"></i></a>
             </div>
 
 <?php

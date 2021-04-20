@@ -27,7 +27,7 @@ const eliminarModulo = (tipo, idmodulo) => {
             }).done(response => {
                 if (response.type === "success") {
                     $("#moduloItem" + idmodulo).fadeOut("slow");
-                    swal.fire(response).then(() => irMenu(false));
+                    swal.fire(response);
                 } else {
                     swal.fire(response);
                 }

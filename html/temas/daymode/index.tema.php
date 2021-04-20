@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="<?php echo $urlTema?>/css/all.css">
     <link rel="stylesheet" href="<?php echo $urlTema?>/css/fonts.css">
     <link rel="stylesheet" href="<?php echo $urlTema?>/css/styles.css">
+    <link rel="stylesheet" href="<?php echo "$urlRecursos/js/jqueryui/jquery-ui.css"?>">
     <title>Saturna</title>
 </head>
 <body>    
@@ -107,7 +108,7 @@
                 <hr class="optionLoginSeparator">
                 <h3 class="optionItemHeader">AJUSTES DE MENÚS</h3>
                 <div class="optionItems">
-                    <a href="" class="optionItemButton">Administración de menús</a>
+                    <a href=<?php echo "$urlSite/?mod=adminmenus"; ?> class="optionItemButton">Administración de menús</a>
                 </div>
                 <hr class="optionLoginSeparator">
                 <h3 class="optionItemHeader">AJUSTES DE ARTÍCULOS</h3>
@@ -127,9 +128,8 @@
              }
         } 
 ?>
-        
-
-        <footer>
+    </div>
+    <footer>
             <div class="social-media">
                 <a href="#"><i class="fab fa-twitter"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -137,8 +137,6 @@
             </div>
             <p class="autor">Sergio Manrique Rios Reyes</p>
         </footer>
-
-    </div>
         
 
     <script src="<?php echo $urlTema?>/js/scripts.js"></script>

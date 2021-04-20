@@ -59,33 +59,27 @@ if (isset($post_operacion)) {
                         $existeMenu = $f->getQueryData($queryVerifyMenu, [$post_menuitem]);
                         if (!$existeMenu["error"]) {
                             if (!$existeMenu["data"][0]["existeMenu"]) {
-                                $queryVerifyOrderItem = "SELECT IFNULL(COUNT(*), 0) as existeOrden FROM menudetalle WHERE idmenu = ? AND orden = ?;";
-                                $existeOrden = $f->getQueryData($queryVerifyOrderItem, [$post_idmenu, $post_orden]);
+                                $queryVerifyOrderItem = "SELECT MAX(orden) + 1 as siguiente FROM menudetalle WHERE idmenu = ?;";
+                                $existeOrden = $f->getQueryData($queryVerifyOrderItem, [$post_idmenu]);
                                 if (!$existeOrden["error"]) {
-                                    if (!$existeOrden["data"][0]["existeOrden"]) {
-                                        $queryCreateMenu = "INSERT INTO menudetalle(idmenu, menuitem, vinculo, orden) VALUES(?, ?, ?, ?);";
-                                        $parametros = [
-                                            $post_idmenu,
-                                            $post_menuitem,
-                                            $post_vinculo,
-                                            $post_orden
-                                        ];
-                                        $queryData = $f->exeQuery($queryCreateMenu, $parametros);
-                                        if (!$queryData["error"]) {
-                                            $text = "El ítem ha sido creado correctamente.";
-                                            $type = "success";
-                                            $title = "Ok";
-                                        } else {
-                                            $text = "Ha ocurrido un error intentando crear el ítem.";
-                                            $type = "error";
-                                            $title = "Error";
-                                            $datareturn = [$queryData["error"]];
-                                        }
+                                    $queryCreateMenu = "INSERT INTO menudetalle(idmenu, menuitem, vinculo, orden) VALUES(?, ?, ?, ?);";
+                                    $parametros = [
+                                        $post_idmenu,
+                                        $post_menuitem,
+                                        $post_vinculo,
+                                        $existeOrden["data"][0]["siguiente"]
+                                    ];
+                                    $queryData = $f->exeQuery($queryCreateMenu, $parametros);
+                                    if (!$queryData["error"]) {
+                                        $text = "El ítem ha sido creado correctamente.";
+                                        $type = "success";
+                                        $title = "Ok";
                                     } else {
-                                        $text = "El orden del ítem ya está tomado. Intenta en la posición ".($post_orden+1);
+                                        $text = "Ha ocurrido un error intentando crear el ítem.";
                                         $type = "error";
                                         $title = "Error";
-                                    }                                  
+                                        $datareturn = [$queryData["error"]];
+                                        }                                
                                 } else {
                                     $text = "Ha ocurrido un error tratando de verificar el orden de este ítem.";
                                     $type = "error";

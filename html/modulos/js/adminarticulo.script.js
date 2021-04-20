@@ -7,9 +7,7 @@ let editor;
 // adding the editor to the form
 ClassicEditor.create(document.querySelector("#editor")).then(newEditor => { editor = newEditor }).catch(error => console.log(error));
 
-console.log("Datos de contenido: ", document.getElementById("contenido-articulo").innerHTML);
-
-document.getElementById("cbx-cargar-contenido").addEventListener("click", () => {
+document.getElementById("cbx-cargar-contenido") && document.getElementById("cbx-cargar-contenido").addEventListener("click", () => {
     if (document.getElementById("cbx-cargar-contenido").checked)
         editor.setData(document.getElementById("contenido-articulo").innerHTML);
     else
@@ -18,7 +16,7 @@ document.getElementById("cbx-cargar-contenido").addEventListener("click", () => 
 
 
 // ---------------------------------------VALIDACIONES------------------------------------------------------------------------------------------------
-document.getElementById("txt-titulo-articulo").addEventListener("blur", e => {
+document.getElementById("txt-titulo-articulo") && document.getElementById("txt-titulo-articulo").addEventListener("blur", e => {
     if (document.getElementById("txt-titulo-articulo").value === "") {
         error = true;
         console.log(document.getElementById("txt-titulo-articulo").value);
@@ -44,7 +42,7 @@ document.getElementById("txt-titulo-articulo").addEventListener("blur", e => {
 });
 
 // validando que las etiquetas tenga datos cuando se cambia de input
-document.getElementById("txt-tags").addEventListener("blur", e => {
+document.getElementById("txt-tags") && document.getElementById("txt-tags").addEventListener("blur", e => {
     if (document.getElementById("txt-tags").value == "") {
         error = true;
         e.target.style.border = "1px solid #c23616";
@@ -68,7 +66,7 @@ document.getElementById("txt-tags").addEventListener("blur", e => {
     }
 });
 
-document.getElementById("txt-tags").addEventListener("keyup", e => {
+document.getElementById("txt-tags") && document.getElementById("txt-tags").addEventListener("keyup", e => {
     document.getElementById("txt-tags").style.border = "1px solid rgba(0, 0, 0, 0.5)";
     (document.getElementById("error-tags") === null)
         ? null
@@ -154,7 +152,7 @@ const validarFormulario = (create = true) => {
 // ---------------------------------------VALIDACIONES------------------------------------------------------------------------------------------------
 
 // imprime el titulo del articulo a medida se empieza a escribir
-document.getElementById("txt-titulo-articulo").addEventListener("keyup", e => {
+document.getElementById("txt-titulo-articulo") && document.getElementById("txt-titulo-articulo").addEventListener("keyup", e => {
     document.getElementById("article-title").innerHTML = (document.getElementById("article-title").innerText.split(":")[0] == "Editar artículo")
         ? `Editar artículo: ${document.getElementById("txt-titulo-articulo").value}`
         : `Nuevo artículo: ${document.getElementById("txt-titulo-articulo").value}`;
@@ -216,8 +214,6 @@ const removeCategoryTag = (categoryName) => {
 
     cboCategorias.add(option);
 };
-
-document.getElementById("tag-categorias").dataset.categoriaseliminadas = "";
 
 document.addEventListener("click", e => {
     if (e.target && e.target.id == "tag") {

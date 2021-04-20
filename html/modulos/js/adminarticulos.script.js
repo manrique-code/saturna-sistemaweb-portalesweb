@@ -1,7 +1,7 @@
 const eliminarArticulo = (idArticulo) => {
     swal.fire({
         title: "Advertencia",
-        text: `Esta acción eliminará por completo el artículo y no se podrá revertir. ¿Quieres hacerlo de todas formas?`,
+        text: "Esta acción eliminará por completo el artículo y no se podrá revertir. ¿Quieres hacerlo de todas formas?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#27ae60",

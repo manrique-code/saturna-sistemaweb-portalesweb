@@ -2,7 +2,6 @@ let error = false;
 let editor;
 let editorPhp;
 let edtiorjs;
-console.log(tipoArchivo);
 
 const decodeSpecialTags = (html) => {
     const data = document.createElement("textarea");
@@ -27,15 +26,16 @@ $(document).ready(function () {
     if (tipoArchivo == 0) editor.setData(decodeSpecialTags(contenido));
 });
 
-edtiorjs = ace.edit("editorJs");
-edtiorjs.setOptions({
+
+edtiorjs = document.getElementById("editorJs") && ace.edit("editorJs");
+document.getElementById("editorJs") && edtiorjs.setOptions({
     maxLines: Infinity,
     minLines: 20,
     fontSize: "100%",
 });
-edtiorjs.setTheme("ace/theme/monokai");
-edtiorjs.getSession().setMode("ace/mode/javascript");
-edtiorjs.setValue(decodeSpecialTags(jscontent));
+document.getElementById("editorJs") && edtiorjs.setTheme("ace/theme/monokai");
+document.getElementById("editorJs") && edtiorjs.getSession().setMode("ace/mode/javascript");
+document.getElementById("editorJs") && edtiorjs.setValue(decodeSpecialTags(jscontent));
 
 const hideEditors = (phpModulo, phpAccion, html) => {
     document.getElementById("editorPHP").style.display = (phpModulo) ? "block" : "none";
@@ -43,7 +43,7 @@ const hideEditors = (phpModulo, phpAccion, html) => {
     (!html) ? (tipoArchivo == 0) ? editor.destroy() : null : ClassicEditor.create(document.querySelector("#editorHtml")).then(newEditor => { editor = newEditor }).catch(error => console.log(error));
 };
 
-(tipoArchivo == 1) ? hideEditors(true, false, false) : hideEditors(false, false, true);
+(tipoArchivo != 5) ? (tipoArchivo == 1) ? hideEditors(true, false, false) : hideEditors(false, false, true) : null;
 
 document.getElementById("cboTipoArchivo") && document.getElementById("cboTipoArchivo").addEventListener("change", event => {
     switch (document.getElementById("cboTipoArchivo").value) {
@@ -107,12 +107,12 @@ document.getElementById("txtIdbloque") && document.getElementById("txtIdbloque")
     }
 });
 
-tipoArchivo && editorPhp.getSession().on("change", () => {
+tipoArchivo != 5 && editorPhp.getSession().on("change", () => {
     contenido = editorPhp.getValue();
 });
 
 let c = 0;
-edtiorjs.getSession().on("change", () => {
+tipoArchivo != 5 && edtiorjs.getSession().on("change", () => {
     c++;
     if (c !== 1) jscontent = edtiorjs.getValue();
 });

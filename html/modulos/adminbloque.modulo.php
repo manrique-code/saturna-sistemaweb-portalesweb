@@ -37,6 +37,7 @@ global $urlSite;
         </form>
         <a href="javascript:irMenu(false)" class="btn-cancelar">Cancelar</a>
         <a href="javascript:crear()" class="btn-guardar">Guardar</a>
+        <script>let tipoArchivo = 5</script>
 <?php
                     break;
                 case "editar":

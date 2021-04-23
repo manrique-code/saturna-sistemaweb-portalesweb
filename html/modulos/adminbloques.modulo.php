@@ -49,6 +49,7 @@ global $urlSite;
             <script src="<?php echo $urlRecursos."/js/sweetalert2.min.js"; ?>"></script>
             <script src="<?php echo $urlRecursos."/js/jquery.min.js"; ?>"></script>
             <script src=<?php echo "$urlRecursos/js/src-noconflict/ace.js";?> type="text/javascript" charset="utf-8"></script>
+            <script >let tipoArchivo = 5;</script>
 <?php
             } else {
 ?>

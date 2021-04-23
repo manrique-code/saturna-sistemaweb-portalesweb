@@ -1,4 +1,69 @@
 let error = false;
+let editor;
+let editorPhp;
+let edtiorjs;
+console.log(tipoArchivo);
+
+const decodeSpecialTags = (html) => {
+    const data = document.createElement("textarea");
+    data.innerHTML = html;
+    return data.value;
+};
+
+if (tipoArchivo == 1) {
+    document.getElementById("editorPHP").style.display = "block";
+    editorPhp = ace.edit("editorPHP");
+    editorPhp.setOptions({
+        maxLines: Infinity,
+        minLines: 20,
+        fontSize: "100%",
+    });
+    editorPhp.setTheme("ace/theme/monokai");
+    editorPhp.getSession().setMode("ace/mode/php");
+    editorPhp.setValue(decodeSpecialTags(contenido));
+}
+
+$(document).ready(function () {
+    if (tipoArchivo == 0) editor.setData(decodeSpecialTags(contenido));
+});
+
+edtiorjs = ace.edit("editorJs");
+edtiorjs.setOptions({
+    maxLines: Infinity,
+    minLines: 20,
+    fontSize: "100%",
+});
+edtiorjs.setTheme("ace/theme/monokai");
+edtiorjs.getSession().setMode("ace/mode/javascript");
+edtiorjs.setValue(decodeSpecialTags(jscontent));
+
+const hideEditors = (phpModulo, phpAccion, html) => {
+    document.getElementById("editorPHP").style.display = (phpModulo) ? "block" : "none";
+    document.getElementById("editorJs").style.display = (phpAccion) ? "block" : "none";
+    (!html) ? (tipoArchivo == 0) ? editor.destroy() : null : ClassicEditor.create(document.querySelector("#editorHtml")).then(newEditor => { editor = newEditor }).catch(error => console.log(error));
+};
+
+(tipoArchivo == 1) ? hideEditors(true, false, false) : hideEditors(false, false, true);
+
+document.getElementById("cboTipoArchivo") && document.getElementById("cboTipoArchivo").addEventListener("change", event => {
+    switch (document.getElementById("cboTipoArchivo").value) {
+        case "HTML":
+            editor.setData(decodeSpecialTags(contenido));
+            hideEditors(false, false, true);
+            break;
+        case "javascript":
+            edtiorjs.setValue(decodeSpecialTags(jscontent));
+            hideEditors(false, true, false);
+            break;
+        case "PHP":
+            editorPhp.setValue(decodeSpecialTags(contenido));
+            hideEditors(true, false, false);
+            break;
+        default:
+            break;
+    }
+});
+
 document.getElementById("txtIdbloque") && document.getElementById("txtIdbloque").addEventListener("blur", event => {
     if (document.getElementById("txtIdbloque").value.trim() === "") {
         error = true;
@@ -41,6 +106,66 @@ document.getElementById("txtIdbloque") && document.getElementById("txtIdbloque")
         });
     }
 });
+
+tipoArchivo && editorPhp.getSession().on("change", () => {
+    contenido = editorPhp.getValue();
+});
+
+let c = 0;
+edtiorjs.getSession().on("change", () => {
+    c++;
+    if (c !== 1) jscontent = edtiorjs.getValue();
+});
+
+const editar = (idbloque, tipo) => {
+    swal.fire({
+        title: "Confirmación",
+        text: `Se editará el bloque con sus archivos correspondientes. ¿Estás de acuerdo?`,
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#27ae60",
+        cancelButtonColor: "#a0a0a0",
+        confirmButtonText: "Sí, editar",
+        cancelButtonText: "Cancelar",
+    }).then(result => {
+        if (result.isConfirmed) {
+            console.log("Data a enviar", {
+                idbloque,
+                bloque: document.getElementById("txtBloqueName").value,
+                tipo,
+                mostrartitulo: 0,
+                contenidoBloque: (tipoArchivo == 1) ? editorPhp.getValue() : editor.getData(),
+                contenidoScript: edtiorjs.getValue()
+            });
+            swal.fire({
+                text: "Enviando datos",
+                allowOutsideClick: false,
+            });
+            swal.showLoading();
+            $.ajax({
+                url: `./webservices/?accion=adminbloques`,
+                method: 'POST',
+                data: {
+                    operacion: "editar",
+                    idbloque,
+                    bloque: document.getElementById("txtBloqueName").value,
+                    tipo,
+                    mostrartitulo: 0,
+                    contenidoBloque: (tipoArchivo == 1) ? editorPhp.getValue() : editor.getData(),
+                    contenidoScript: edtiorjs.getValue()
+                }
+            }).done(response => {
+                if (response.type === "success") {
+                    console.log(response);
+                    swal.fire(response).then(() => irMenu(false));
+                } else {
+                    console.log(response);
+                    swal.fire(response);
+                }
+            });
+        }
+    });
+};
 
 const eliminar = (idbloque, tipo) => {
     swal.fire({
@@ -124,7 +249,7 @@ const crear = () => {
                     idbloque: document.getElementById("txtIdbloque").value,
                     bloque: document.getElementById("txtBloqueName").value,
                     tipo: document.getElementById("cboTipoArchivo").value,
-                    mostrartitulo: 1,
+                    mostrartitulo: 0,
                     javascript: document.getElementById("chbxJavascript").checked,
                 }
             }).done(response => {
